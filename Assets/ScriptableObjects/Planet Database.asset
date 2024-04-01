@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b32f6402a50a74fa5ad07db59d951e0f, type: 3}
+  m_Name: Planet Database
+  m_EditorClassIdentifier: 
+  planets:
+  - id: blue
+    prefab: {fileID: 5513879070048414371, guid: 1326bbb2960bb4f06afe4f656be1251c, type: 3}
+    moons: 0
+  - id: red
+    prefab: {fileID: 5513879070048414371, guid: 4d69863dcafef4898aa7459a6e492029, type: 3}
+    moons: 1
+  - id: purple
+    prefab: {fileID: 5513879070048414371, guid: 40defb003c9f344f8b358ccc8205adde, type: 3}
+    moons: 1
+  moonPrefab: {fileID: 2796210769183983261, guid: f89b8158d97f540e4b74439523979aeb, type: 3}
+  sunPrefab: {fileID: 66216716439003811, guid: a60697afe1c2948e595dc32b30e0522f, type: 3}
+  blackHolePrefab: {fileID: 7427356434849572052, guid: 72f7f8a70a40b4a0ba5cdb31933b87c6, type: 3}

@@ -4,14 +4,12 @@ using DG.Tweening;
 using Kuroneko.UtilityDelivery;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent (typeof (Rigidbody2D))]
 public abstract class CelestialBody : MonoBehaviour, IHookable
 {
-    [SerializeField] private bool clockwiseOrbit = false;
-    [SerializeField, Range(0f, 360f)] private float startAngle = 0f;
-    [SerializeField] private float orbitalPeriod = 1f;
-    [SerializeField, Range(1f, 10f)] private float orbitalRadius = 1f;
+    [SerializeField] private OrbitalData orbitalData;
     protected Transform parent;
     private Rigidbody2D _rigidbody;
 
@@ -31,9 +29,29 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
         _rigidbody = GetComponent<Rigidbody2D>();
     }
 
+    public void SetScale(Vector3 scale)
+    {
+        transform.localScale = scale;
+    }
+
+    public void SetOrbitalRadius(float radius)
+    {
+        orbitalData.SetOrbitalRadius(radius);
+    }
+
+    public void SetOrbitalPeriod(float period)
+    {
+        orbitalData.SetOrbitalPeriod(period);
+    }
+
+    public void RandomInit(float maxPeriod, float maxRadius)
+    {
+        orbitalData.Randomise(maxPeriod, maxRadius);
+    }
+
     private void Start()
     {
-        _angle = startAngle;
+        _angle = orbitalData.StartAngle;
         SetParent();
         InitialiseDistance();
     }
@@ -47,8 +65,8 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
     
     protected Vector2 GetStartPosition(Vector3 parentPos)
     {
-        Vector2 rotation = UniverseHelper.ConvertAngleToRotation(startAngle);
-        return parentPos + (Vector3)rotation.normalized * orbitalRadius;
+        Vector2 rotation = UniverseHelper.ConvertAngleToRotation(orbitalData.StartAngle);
+        return parentPos + (Vector3)rotation.normalized * orbitalData.OrbitalRadius;
     }
 
     private void FixedUpdate()
@@ -67,14 +85,14 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
 
     private void Orbit()
     {
-        float angleStep = UniverseHelper.GetAngleStep(Time.fixedDeltaTime, orbitalPeriod);
-        if (clockwiseOrbit)
+        float angleStep = UniverseHelper.GetAngleStep(Time.fixedDeltaTime, orbitalData.OrbitalPeriod);
+        if (orbitalData.ClockwiseOrbit)
             _angle -= angleStep;
         else
             _angle += angleStep;
         
         Vector2 rotation = UniverseHelper.ConvertAngleToRotation(_angle);
-        Vector2 position = (Vector2)parent.transform.position + rotation * orbitalRadius;
+        Vector2 position = (Vector2)parent.transform.position + rotation * orbitalData.OrbitalRadius;
         _rigidbody.MovePosition(position);
     }
 
