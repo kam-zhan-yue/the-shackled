@@ -186,6 +186,7 @@ MonoBehaviour:
   clockwiseOrbit: 0
   startAngle: 0
   orbitalPeriod: 5
+  orbitalSpeed: 200
   orbitalRadius: 2.47
   bodyType: 1
   parent: {fileID: 1963107841}
@@ -425,6 +426,7 @@ MonoBehaviour:
   clockwiseOrbit: 1
   startAngle: 0
   orbitalPeriod: 5
+  orbitalSpeed: 200
   orbitalRadius: 1
   bodyType: 2
   parent: {fileID: 368248290}
