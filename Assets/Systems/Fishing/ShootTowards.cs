@@ -11,7 +11,10 @@ public class ShootTowards : MonoBehaviour
     private bool is_shooting = false;
     private bool reached_destination = false;
     private Vector3 origin_position;
+    public Vector3 Origin => origin_position;
+    
     private Tentacle_State current_state;
+    public Tentacle_State Current_State => current_state;
 
     private void Awake() 
     {

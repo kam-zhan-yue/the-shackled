@@ -186,8 +186,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1587072028}
   - {fileID: 1060039784}
-  m_Father: {fileID: 1587072028}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!120 &1071635913
 LineRenderer:
@@ -309,12 +310,14 @@ MonoBehaviour:
   line_renderer: {fileID: 0}
   segment_positions: []
   segment_velocity: []
-  target_direction: {fileID: 1979267982}
+  tentacle_movement_data: {fileID: 1587072032}
+  target_direction: {fileID: 1587072028}
   target_distance: 0.3
   smooth_speed: 0.02
   wiggle_speed: 10
   wiggle_magnitude: 10
-  wiggle_direction: {fileID: 1071635910}
+  wiggle_direction: {fileID: 1060039784}
+  retracting: 0
 --- !u!1 &1386983199
 GameObject:
   m_ObjectHideFlags: 0
@@ -420,7 +423,7 @@ GameObject:
   - component: {fileID: 1587072032}
   - component: {fileID: 1587072033}
   m_Layer: 0
-  m_Name: TentacleTest
+  m_Name: TentacleCollider
   m_TagString: Tentacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -486,13 +489,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1587072025}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1071635910}
-  m_Father: {fileID: 0}
+  m_Children: []
+  m_Father: {fileID: 1071635910}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1587072032
 MonoBehaviour:
@@ -589,6 +591,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0cff02d09263204b92775296eeb3893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnTentacleCollision:
+    m_PersistentCalls:
+      m_Calls: []
+  OnBlackHoleCollision:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!50 &1719852863
 Rigidbody2D:
   serializedVersion: 4
@@ -705,4 +713,4 @@ SceneRoots:
   m_Roots:
   - {fileID: 1386983202}
   - {fileID: 1719852861}
-  - {fileID: 1587072028}
+  - {fileID: 1071635910}
