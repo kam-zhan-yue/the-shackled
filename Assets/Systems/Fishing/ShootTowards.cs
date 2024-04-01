@@ -8,7 +8,6 @@ public class ShootTowards : MonoBehaviour
     [SerializeField] private bool debug;
     [SerializeField] private float move_speed;
     [SerializeField] private float retract_speed;
-    private bool is_shooting = false;
     private bool reached_destination = false;
     private Vector3 origin_position;
     public Vector3 Origin => origin_position;
@@ -21,6 +20,16 @@ public class ShootTowards : MonoBehaviour
         origin_position = transform.position;
     }
 
+    private void Update()
+    {
+        if (debug && current_state == Tentacle_State.Ready && Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            Vector3 cursor_position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            cursor_position.z = transform.position.z; // Ensure z position is the same as the object's
+            Shoot(cursor_position, this.GetCancellationTokenOnDestroy()).Forget();
+        }
+    }
+
     public async UniTask Shoot(Vector3 target, float multiplier, CancellationToken token)
     {
         Vector3 position = transform.position;
@@ -30,44 +39,26 @@ public class ShootTowards : MonoBehaviour
         await Shoot(finalPoint, token);
     }
 
-    private void Update()
-    {
-        switch (current_state)
-        {
-            case Tentacle_State.Ready:
-                if (debug && !is_shooting && Input.GetKeyDown(KeyCode.Mouse0))
-                    {
-                        Vector3 cursor_position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                        cursor_position.z = transform.position.z; // Ensure z position is the same as the object's
-                        Shoot(cursor_position, this.GetCancellationTokenOnDestroy()).Forget();
-                        current_state = Tentacle_State.Shooting;
-                    }
-                break;
-            case Tentacle_State.Shooting:
-                break;
-            case Tentacle_State.Grabbed:
-                StartCoroutine(Retract());
-                current_state = Tentacle_State.Retracting;
-                break;
-        }
-    }
-
     private async UniTask Shoot(Vector3 destination, CancellationToken token)
     {
+        Debug.Log($"Going to {destination}");
+        current_state = Tentacle_State.Shooting;
         while (transform.position != destination)
         {
             transform.position = Vector3.MoveTowards(transform.position, destination, move_speed * Time.deltaTime);
             await UniTask.NextFrame(token);
         }
         current_state = Tentacle_State.Grabbed;
+        await Retract(token);
     }
 
-    private IEnumerator Retract()
+    private async UniTask Retract(CancellationToken token)
     {
+        current_state = Tentacle_State.Retracting;
         while (transform.position != origin_position)
         {
             transform.position = Vector3.MoveTowards(transform.position, origin_position, retract_speed * Time.deltaTime);
-            yield return null;
+            await UniTask.NextFrame(token);
         }
         current_state = Tentacle_State.Ready;
     }

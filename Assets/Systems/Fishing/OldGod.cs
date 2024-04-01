@@ -31,15 +31,9 @@ public class OldGod : MonoBehaviour
 
     private void Shoot(InputAction.CallbackContext callbackContext)
     {
-        switch (_state)
+        if (_state == State.Idle)
         {
-            case State.Idle:
-                Cast().Forget();
-                break;
-            case State.Casting:
-                break;
-            case State.Shooting:
-                break;
+            Cast().Forget();
         }
     }
     
