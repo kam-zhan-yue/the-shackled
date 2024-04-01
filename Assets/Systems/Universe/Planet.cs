@@ -11,10 +11,16 @@ public class Planet : CelestialBody
     {
         _moons.Add(moon);
     }
+
+    public void SetParent(Transform newParent)
+    {
+        parent = newParent;
+    }
     
     protected override void SetParent()
     {
-        parent = ServiceLocator.Instance.Get<IUniverseService>().GetCentre();
+        if(parent == null)
+            parent = ServiceLocator.Instance.Get<IUniverseService>().GetCentre();
     }
     private void OnValidate()
     {

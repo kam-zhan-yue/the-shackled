@@ -118,4 +118,9 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
         });
         return new CelestialData();
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(parent.transform.position, orbitalData.OrbitalRadius);
+    }
 }

@@ -15,7 +15,7 @@ MonoBehaviour:
   planets:
   - id: blue
     prefab: {fileID: 5513879070048414371, guid: 1326bbb2960bb4f06afe4f656be1251c, type: 3}
-    moons: 0
+    moons: 1
   - id: red
     prefab: {fileID: 5513879070048414371, guid: 4d69863dcafef4898aa7459a6e492029, type: 3}
     moons: 1

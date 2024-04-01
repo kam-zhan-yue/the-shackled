@@ -35,7 +35,7 @@ public class PlanetDatabase : ScriptableObject
             }
         }
         
-        OrbitalSystem orbitalSystem = new(planet, moons, Random.Range(1f, 10f));
+        OrbitalSystem orbitalSystem = new(planet, moons, Random.Range(1f, 10f), 1f, 2f);
         orbitalSystem.Arrange(0.1f, 0.5f, 0.5f, 1f);
         return orbitalSystem;
     }
@@ -49,6 +49,9 @@ public class PlanetDatabase : ScriptableObject
         for (int i = 0; i < numPlanets; ++i)
         {
             OrbitalSystem planetOrbitalSystem = GeneratePlanet();
+            Planet planet = (Planet)planetOrbitalSystem.Centre;
+            planet.SetParent(centre.transform);
+            planetOrbitalSystem.Centre.transform.parent = centre.transform;
             solarSystemOrbitals.Add(planetOrbitalSystem);
         }
 
