@@ -45,3 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   planetDatabase: {fileID: 11400000, guid: 38ac539f55c554a22b5f5784902f4e97, type: 2}
+  gameSettings: {fileID: 11400000, guid: 9213145d8212349f7812685f9cd23dba, type: 2}
+  angleStep: 10
+  minSpawnPerRing: 1
+  maxSpawnPerRing: 4

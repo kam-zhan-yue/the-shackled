@@ -12,6 +12,7 @@ using UnityEngine.InputSystem;
 
 public class OldGod : MonoBehaviour
 {
+    private const int SCALE_STEP = 5;
     [BoxGroup("Scriptable Objects"), SerializeField] private FloatVariable scale;
     [BoxGroup("Components"), SerializeField] private Casting casting;
     [BoxGroup("Components"), SerializeField] private ShootTowards shootTowards;
@@ -49,6 +50,11 @@ public class OldGod : MonoBehaviour
         _scaleFactor += data.scaleFactor;
         Vector3 newScale = Vector3.one * _scaleFactor;
         transform.DOScale(newScale, 0.2f).SetEase(Ease.OutQuart);
+
+        if (_scaleFactor % SCALE_STEP == 0)
+        {
+            ZoomOut();
+        }
     }
 
     private void Shoot(InputAction.CallbackContext callbackContext)

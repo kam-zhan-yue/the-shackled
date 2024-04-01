@@ -11,6 +11,11 @@ public class Planet : CelestialBody
     {
         _moons.Add(moon);
     }
+    
+    public void RemoveMoon(Moon moon)
+    {
+        _moons.Remove(moon);
+    }
 
     public void SetParent(Transform newParent)
     {
@@ -32,7 +37,7 @@ public class Planet : CelestialBody
     public override void Hook(Transform pole)
     {
         base.Hook(pole);
-        for (int i = 0; i < _moons.Count; ++i)
+        for (int i = _moons.Count - 1; i >= 0; --i)
         {
             _moons[i].Hook(pole);
         }
@@ -41,9 +46,10 @@ public class Planet : CelestialBody
     public override CelestialData Absorb()
     {
         CelestialData data = base.Absorb();
-        for (int i = 0; i < _moons.Count; ++i)
+        Debug.Log($"Force Move Moons {_moons.Count}");
+        for (int i = _moons.Count - 1; i >= 0; --i)
         {
-            data.Add(_moons[i].Absorb());
+            _moons[i].ForceMove();
         }
 
         return data;

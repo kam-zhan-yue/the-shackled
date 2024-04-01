@@ -130,6 +130,12 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
         return new CelestialData();
     }
 
+    public void ForceMove()
+    {
+        Vector3 position = ServiceLocator.Instance.Get<IUniverseService>().GetCentre().position;
+        transform.DOMove(position, 0.2f).SetEase(Ease.OutQuart);
+    }
+
     private void OnDrawGizmos()
     {
         if(parent != null)
