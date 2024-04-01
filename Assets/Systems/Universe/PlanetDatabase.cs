@@ -45,15 +45,14 @@ public class PlanetDatabase : ScriptableObject
     {
         CelestialBody centre = GenerateCentre();
         int numPlanets = Random.Range(1, UniverseHelper.MAX_PLANETS);
-        List<CelestialBody> solarSystemPlanets = new();
+        List<OrbitalSystem> solarSystemOrbitals = new();
         for (int i = 0; i < numPlanets; ++i)
         {
-            PlanetData planetData = GetRandomPlanet();
-            Planet planet = Instantiate(planetData.prefab, centre.transform);
-            solarSystemPlanets.Add(planet);
+            OrbitalSystem planetOrbitalSystem = GeneratePlanet();
+            solarSystemOrbitals.Add(planetOrbitalSystem);
         }
 
-        OrbitalSystem orbitalSystem = new(centre, solarSystemPlanets, Random.Range(1f, 10f));
+        OrbitalSystem orbitalSystem = new(centre, solarSystemOrbitals, Random.Range(1f, 10f));
         orbitalSystem.Arrange(1f, 2f, 1f, 3f);
         return orbitalSystem;
     }
