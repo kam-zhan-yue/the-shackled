@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class DebugPole : MonoBehaviour
+public class FishingPole : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D col)
     {

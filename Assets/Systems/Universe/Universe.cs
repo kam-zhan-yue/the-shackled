@@ -8,12 +8,12 @@ using UnityEngine;
 public class Universe : MonoBehaviour, IUniverseService
 {
     private List<CelestialBody> _bodies = new();
-    private GameObject centre;
+    private GameObject _centre;
     
     private void Awake()
     {
         ServiceLocator.Instance.Register<IUniverseService>(this);
-        centre = UniverseHelper.GetCentre();
+        _centre = UniverseHelper.GetCentre();
     }
 
     private void Start()
@@ -32,6 +32,6 @@ public class Universe : MonoBehaviour, IUniverseService
 
     public Transform GetCentre()
     {
-        return centre.transform;
+        return _centre.transform;
     }
 }

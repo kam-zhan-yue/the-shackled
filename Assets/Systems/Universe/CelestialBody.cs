@@ -1,18 +1,18 @@
 using System;
 using System.Collections.Generic;
+using DG.Tweening;
 using Kuroneko.UtilityDelivery;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 [RequireComponent (typeof (Rigidbody2D))]
-public class CelestialBody : MonoBehaviour, IHookable
+public abstract class CelestialBody : MonoBehaviour, IHookable
 {
     [SerializeField] private bool clockwiseOrbit = false;
     [SerializeField, Range(0f, 360f)] private float startAngle = 0f;
     [SerializeField] private float orbitalPeriod = 1f;
-    [SerializeField, Range(1f, 5f)] private float orbitalRadius = 1f;
-    [SerializeField] private BodyType bodyType;
-    private Transform _parent;
+    [SerializeField, Range(1f, 10f)] private float orbitalRadius = 1f;
+    protected Transform parent;
     private Rigidbody2D _rigidbody;
 
     private State _state = State.Orbiting;
@@ -38,25 +38,14 @@ public class CelestialBody : MonoBehaviour, IHookable
         InitialiseDistance();
     }
 
-    private void SetParent()
-    {
-        switch (bodyType)
-        {
-            case BodyType.Planet:
-                _parent = ServiceLocator.Instance.Get<IUniverseService>().GetCentre();
-                break;
-            case BodyType.Moon:
-                _parent = transform.parent.transform;
-                break;
-        }
-    }
+    protected abstract void SetParent();
 
     private void InitialiseDistance()
     {
-        transform.position = GetStartPosition(_parent.position);
+        transform.position = GetStartPosition(parent.position);
     }
     
-    private Vector2 GetStartPosition(Vector3 parentPos)
+    protected Vector2 GetStartPosition(Vector3 parentPos)
     {
         Vector2 rotation = UniverseHelper.ConvertAngleToRotation(startAngle);
         return parentPos + (Vector3)rotation.normalized * orbitalRadius;
@@ -78,37 +67,18 @@ public class CelestialBody : MonoBehaviour, IHookable
 
     private void Orbit()
     {
-        if (bodyType != BodyType.Center)
-        {
-            float angleStep = UniverseHelper.GetAngleStep(Time.fixedDeltaTime, orbitalPeriod);
-            if (clockwiseOrbit)
-                _angle -= angleStep;
-            else
-                _angle += angleStep;
-            
-            Vector2 rotation = UniverseHelper.ConvertAngleToRotation(_angle);
-            Vector2 position = (Vector2)_parent.transform.position + rotation * orbitalRadius;
-            _rigidbody.MovePosition(position);
-        }
+        float angleStep = UniverseHelper.GetAngleStep(Time.fixedDeltaTime, orbitalPeriod);
+        if (clockwiseOrbit)
+            _angle -= angleStep;
+        else
+            _angle += angleStep;
+        
+        Vector2 rotation = UniverseHelper.ConvertAngleToRotation(_angle);
+        Vector2 position = (Vector2)parent.transform.position + rotation * orbitalRadius;
+        _rigidbody.MovePosition(position);
     }
 
-    private void OnValidate()
-    {
-        switch (bodyType)
-        {
-            case BodyType.Planet:
-                GameObject centre = UniverseHelper.GetCentre();
-                if(centre != null)
-                    transform.position = GetStartPosition(UniverseHelper.GetCentre().transform.position);
-                break;
-            case BodyType.Moon:
-                if (transform.parent != null)
-                    transform.position = GetStartPosition(transform.parent.position);
-                break;
-        }
-    }
-
-    public void Hook(Transform pole)
+    public virtual void Hook(Transform pole)
     {
         Debug.Log($"{gameObject.name} is hooked to {pole.name} !");
         _state = State.Hooked;
@@ -120,5 +90,14 @@ public class CelestialBody : MonoBehaviour, IHookable
     public void Reel(Transform pole)
     {
         
+    }
+
+    public virtual CelestialData Absorb()
+    {
+        transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.OutQuart).OnComplete(() =>
+        {
+            Destroy(gameObject);
+        });
+        return new CelestialData();
     }
 }

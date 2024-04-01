@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8368431173684922643}
   - component: {fileID: 9172874309295646154}
   - component: {fileID: 8611631126669632528}
-  - component: {fileID: 4234677293095488488}
   - component: {fileID: 3709255912860858690}
   m_Layer: 0
   m_Name: CelestialBody
@@ -30,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 1560704518533714804}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2, y: 0, z: 0}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -121,23 +120,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &4234677293095488488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1560704518533714804}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a65478bf33d6244738090a2ccfed2bc4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  clockwiseOrbit: 0
-  startAngle: 0
-  orbitalPeriod: 5
-  orbitalRadius: 2
-  bodyType: 1
 --- !u!50 &3709255912860858690
 Rigidbody2D:
   serializedVersion: 4

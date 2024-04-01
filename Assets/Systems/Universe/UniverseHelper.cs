@@ -4,6 +4,7 @@ public static class UniverseHelper
 {
     public const float GRAVITATIONAL_CONSTANT = 0.0001f;
     public const float PHYSICS_TIME_STEP = 0.01f;
+    public const float CAMERA_STEP = 5f;
     
     // Function to convert angle (in degrees) to rotation vector (x, y)
     public static Vector2 ConvertAngleToRotation(float angleDegrees)

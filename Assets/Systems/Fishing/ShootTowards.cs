@@ -41,7 +41,6 @@ public class ShootTowards : MonoBehaviour
 
     private async UniTask Shoot(Vector3 destination, CancellationToken token)
     {
-        Debug.Log($"Going to {destination}");
         current_state = Tentacle_State.Shooting;
         while (transform.position != destination)
         {
