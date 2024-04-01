@@ -1,19 +1,31 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 [Serializable]
 public class OrbitalData
 {
-    [SerializeField] private bool clockwiseOrbit = false;
-    [SerializeField] private float startAngle = 0f;
-    [SerializeField] private float orbitalPeriod = 1f;
-    [SerializeField] private float orbitalRadius = 1f;
+    [SerializeField] private bool clockwiseOrbit;
+    [SerializeField] private float startAngle;
+    [SerializeField] private float orbitalPeriod;
+    [SerializeField] private float orbitalRadius;
+    [SerializeField] private float bodyScale;
 
     public bool ClockwiseOrbit => clockwiseOrbit;
     public float StartAngle => startAngle;
     public float OrbitalPeriod => orbitalPeriod;
     public float OrbitalRadius => orbitalRadius;
+    public float Scale => bodyScale;
+
+    public OrbitalData(float radius, float scale, float angle, float period, bool clockwise)
+    {
+        orbitalRadius = radius;
+        bodyScale = scale;
+        startAngle = angle;
+        orbitalPeriod = period;
+        clockwiseOrbit = clockwise;
+    }
 
     public void SetClockwise(bool clockwise)
     {

@@ -47,12 +47,18 @@ public class Universe : MonoBehaviour, IUniverseService
     [Button]
     public void SpawnRing()
     {
+        GameObject ring = new GameObject($"Ring {_ring}");
         int fibonacci = UniverseHelper.GetFibonacci(_ring);
         float angle = angleStep * fibonacci;
         float scale = UniverseHelper.GetScaleModifier(fibonacci);
         int spawnPerRing = Random.Range(minSpawnPerRing, maxSpawnPerRing);
         float innerAngleStep = 360f / spawnPerRing;
 
+        //Determine if the ring is clockwise
+        bool clockwise = UniverseHelper.ClockwiseRotation();
+        //Set the orbital period for all elements in the ring
+        float period = UniverseHelper.RandomValue(planetDatabase.planetMinMaxData.orbitalPeriod);
+        
         List<OrbitalSystem> systems = new();
         for (int j = 0; j < spawnPerRing; ++j)
         {
@@ -61,10 +67,16 @@ public class Universe : MonoBehaviour, IUniverseService
             switch (spawnType)
             {
                 case SpawnType.Planet:
-                    systems.Add(planetDatabase.GeneratePlanet(fibonacci, scale, spawnAngle));
+                    OrbitalData planetData = new OrbitalData(fibonacci, scale, spawnAngle, period, clockwise);
+                    OrbitalSystem planetSystem = planetDatabase.GeneratePlanet(planetData);
+                    planetSystem.Centre.transform.parent = ring.transform;
+                    systems.Add(planetSystem);
                     break;
                 case SpawnType.SolarSystem:
-                    systems.Add(planetDatabase.GenerateSolarSystem(fibonacci, scale, angle));
+                    OrbitalData solarSystemData = new OrbitalData(fibonacci, scale, spawnAngle, period, clockwise);
+                    OrbitalSystem solarSystem = planetDatabase.GenerateSolarSystem(solarSystemData);
+                    solarSystem.Centre.transform.parent = ring.transform;
+                    systems.Add(solarSystem);
                     break;
             }
         }
@@ -80,7 +92,7 @@ public class Universe : MonoBehaviour, IUniverseService
             return SpawnType.Planet;
         }
 
-        return Random.value > 0.8f ? SpawnType.Planet : SpawnType.SolarSystem;
+        return Random.value > 0.8f ? SpawnType.SolarSystem : SpawnType.Planet;
     }
 
     [Button]

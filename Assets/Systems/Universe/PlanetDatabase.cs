@@ -24,7 +24,7 @@ public class PlanetDatabase : ScriptableObject
     }
 
     [Button]
-    public OrbitalSystem GeneratePlanet(float radius, float scale = 0f, float angle = 0f)
+    public OrbitalSystem GeneratePlanet(OrbitalData orbitalData)
     {
         PlanetData planetData = GetRandomPlanet();
         Planet planet = Instantiate(planetData.prefab);
@@ -39,29 +39,38 @@ public class PlanetDatabase : ScriptableObject
             }
         }
         
-        OrbitalSystem orbitalSystem = new(planet, moons, radius, scale, angle, 
-            moonMinMaxData.orbitRadius.x, moonMinMaxData.orbitRadius.y);
+        OrbitalSystem orbitalSystem = new(planet, moons, orbitalData,
+            moonMinMaxData.orbitRadius, moonMinMaxData.orbitalPeriod);
         orbitalSystem.ArrangeOrbits(moonMinMaxData.bodyRadius.x, moonMinMaxData.bodyRadius.y, 
             moonMinMaxData.separation.x, moonMinMaxData.separation.y);
         return orbitalSystem;
     }
 
     [Button]
-    public OrbitalSystem GenerateSolarSystem(float radius, float scale = 0f, float angle = 0f)
+    public OrbitalSystem GenerateSolarSystem(OrbitalData orbitalData)
     {
         CelestialBody centre = GenerateCentre();
         int numPlanets = Random.Range(1, UniverseHelper.MAX_PLANETS);
         List<OrbitalSystem> solarSystemOrbitals = new();
+
+        //Each individual planet has their own orbital data within the Solar System's orbital data
+        bool clockwise = UniverseHelper.ClockwiseRotation();
+        float scale = orbitalData.Scale;
+        float period = UniverseHelper.RandomValue(planetMinMaxData.orbitalPeriod);
+        
         for (int i = 0; i < numPlanets; ++i)
         {
-            OrbitalSystem planetOrbitalSystem = GeneratePlanet(UniverseHelper.RandomValue(planetMinMaxData.orbitRadius), scale, angle);
+            float startAngle = Random.Range(0f, 360f);
+            float planetOrbitalRadius = UniverseHelper.RandomValue(planetMinMaxData.orbitRadius);
+            OrbitalData planetData = new OrbitalData(planetOrbitalRadius, scale, startAngle, period, clockwise);
+            OrbitalSystem planetOrbitalSystem = GeneratePlanet(planetData);
             Planet planet = (Planet)planetOrbitalSystem.Centre;
             planet.SetParent(centre.transform);
             planetOrbitalSystem.Centre.transform.parent = centre.transform;
             solarSystemOrbitals.Add(planetOrbitalSystem);
         }
 
-        OrbitalSystem orbitalSystem = new(centre, solarSystemOrbitals, radius, scale, angle);
+        OrbitalSystem orbitalSystem = new(centre, solarSystemOrbitals, orbitalData, planetMinMaxData.orbitalPeriod);
         orbitalSystem.ArrangeOrbits(
             planetMinMaxData.bodyRadius.x, planetMinMaxData.bodyRadius.y, 
             planetMinMaxData.separation.x, planetMinMaxData.separation.y);

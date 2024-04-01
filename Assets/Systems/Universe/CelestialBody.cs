@@ -136,7 +136,7 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
         transform.DOMove(position, 0.2f).SetEase(Ease.OutQuart);
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         if(parent != null)
             Gizmos.DrawWireSphere(parent.transform.position, orbitalData.OrbitalRadius);
