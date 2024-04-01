@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Kuroneko.UtilityDelivery;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -11,8 +12,7 @@ public class CelestialBody : MonoBehaviour, IHookable
     [SerializeField] private float orbitalPeriod = 1f;
     [SerializeField, Range(1f, 5f)] private float orbitalRadius = 1f;
     [SerializeField] private BodyType bodyType;
-    [HideIf("bodyType", BodyType.Center)] 
-    [SerializeField] private Transform parent;
+    private Transform _parent;
     private Rigidbody2D _rigidbody;
 
     private State _state = State.Orbiting;
@@ -33,19 +33,32 @@ public class CelestialBody : MonoBehaviour, IHookable
 
     private void Start()
     {
-        InitialiseDistance();
         _angle = startAngle;
+        SetParent();
+        InitialiseDistance();
+    }
+
+    private void SetParent()
+    {
+        switch (bodyType)
+        {
+            case BodyType.Planet:
+                _parent = ServiceLocator.Instance.Get<IUniverseService>().GetCentre();
+                break;
+            case BodyType.Moon:
+                _parent = transform.parent.transform;
+                break;
+        }
     }
 
     private void InitialiseDistance()
     {
-        transform.position = GetStartPosition();
+        transform.position = GetStartPosition(_parent.position);
     }
     
-    private Vector2 GetStartPosition()
+    private Vector2 GetStartPosition(Vector3 parentPos)
     {
         Vector2 rotation = UniverseHelper.ConvertAngleToRotation(startAngle);
-        Vector3 parentPos = parent.transform.position;
         return parentPos + (Vector3)rotation.normalized * orbitalRadius;
     }
 
@@ -74,21 +87,24 @@ public class CelestialBody : MonoBehaviour, IHookable
                 _angle += angleStep;
             
             Vector2 rotation = UniverseHelper.ConvertAngleToRotation(_angle);
-            Vector2 position = (Vector2)parent.transform.position + rotation * orbitalRadius;
+            Vector2 position = (Vector2)_parent.transform.position + rotation * orbitalRadius;
             _rigidbody.MovePosition(position);
         }
     }
 
     private void OnValidate()
     {
-        transform.position = GetStartPosition();
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (parent != null)
+        switch (bodyType)
         {
-            Gizmos.DrawSphere(GetStartPosition(), 0.1f);
+            case BodyType.Planet:
+                GameObject centre = UniverseHelper.GetCentre();
+                if(centre != null)
+                    transform.position = GetStartPosition(UniverseHelper.GetCentre().transform.position);
+                break;
+            case BodyType.Moon:
+                if (transform.parent != null)
+                    transform.position = GetStartPosition(transform.parent.position);
+                break;
         }
     }
 

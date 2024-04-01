@@ -1,8 +1,11 @@
 using System.Collections;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class ShootTowards : MonoBehaviour
 {
+    [SerializeField] private bool debug;
     [SerializeField] private float move_speed;
     [SerializeField] private float retract_speed;
     private bool is_shooting = false;
@@ -15,16 +18,25 @@ public class ShootTowards : MonoBehaviour
         origin_position = transform.position;
     }
 
+    public async UniTask Shoot(Vector3 target, float multiplier, CancellationToken token)
+    {
+        Vector3 position = transform.position;
+        Vector3 adjustedTarget = new Vector3(target.x, target.y, position.z);
+        Vector3 difference = adjustedTarget - position;
+        Vector3 finalPoint = difference * multiplier;
+        await Shoot(finalPoint, token);
+    }
+
     private void Update()
     {
         switch (current_state)
         {
             case Tentacle_State.Ready:
-                 if (!is_shooting && Input.GetKeyDown(KeyCode.Mouse0))
+                if (debug && !is_shooting && Input.GetKeyDown(KeyCode.Mouse0))
                     {
                         Vector3 cursor_position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                         cursor_position.z = transform.position.z; // Ensure z position is the same as the object's
-                        StartCoroutine(Shoot(cursor_position));
+                        Shoot(cursor_position, this.GetCancellationTokenOnDestroy()).Forget();
                         current_state = Tentacle_State.Shooting;
                     }
                 break;
@@ -34,17 +46,15 @@ public class ShootTowards : MonoBehaviour
                 StartCoroutine(Retract());
                 current_state = Tentacle_State.Retracting;
                 break;
-
-
         }
     }
 
-    private IEnumerator Shoot(Vector3 destination)
+    private async UniTask Shoot(Vector3 destination, CancellationToken token)
     {
         while (transform.position != destination)
         {
             transform.position = Vector3.MoveTowards(transform.position, destination, move_speed * Time.deltaTime);
-            yield return null;
+            await UniTask.NextFrame(token);
         }
         current_state = Tentacle_State.Grabbed;
     }

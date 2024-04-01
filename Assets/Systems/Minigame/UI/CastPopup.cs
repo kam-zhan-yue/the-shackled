@@ -11,7 +11,7 @@ public class CastPopup : Popup
     
     protected override void InitPopup()
     {
-        
+        HidePopup();
     }
 
     public void OnCastMultiplierChanged(FloatPair floatPair)
@@ -19,5 +19,13 @@ public class CastPopup : Popup
         Vector3 localScale = fill.localScale;
         localScale = new Vector3(localScale.x, floatPair.Item2, localScale.z);
         fill.localScale = localScale;
+    }
+
+    public void OnCastingChanged(bool casting)
+    {
+        if(casting)
+            ShowPopup();
+        else
+            HidePopup();
     }
 }

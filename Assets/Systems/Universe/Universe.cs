@@ -8,10 +8,12 @@ using UnityEngine;
 public class Universe : MonoBehaviour, IUniverseService
 {
     private List<CelestialBody> _bodies = new();
+    private GameObject centre;
     
     private void Awake()
     {
         ServiceLocator.Instance.Register<IUniverseService>(this);
+        centre = UniverseHelper.GetCentre();
     }
 
     private void Start()
@@ -26,5 +28,10 @@ public class Universe : MonoBehaviour, IUniverseService
         {
             // _bodies[i].UpdateVelocity(UniverseHelper.PHYSICS_TIME_STEP);
         }
+    }
+
+    public Transform GetCentre()
+    {
+        return centre.transform;
     }
 }

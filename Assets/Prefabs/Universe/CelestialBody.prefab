@@ -30,7 +30,7 @@ Transform:
   m_GameObject: {fileID: 1560704518533714804}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.47, y: 0, z: 0}
+  m_LocalPosition: {x: 2, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -136,9 +136,8 @@ MonoBehaviour:
   clockwiseOrbit: 0
   startAngle: 0
   orbitalPeriod: 5
-  orbitalRadius: 2.47
+  orbitalRadius: 2
   bodyType: 1
-  parent: {fileID: 0}
 --- !u!50 &3709255912860858690
 Rigidbody2D:
   serializedVersion: 4

@@ -23,4 +23,9 @@ public static class UniverseHelper
         float angleStep = 360 / orbitalPeriod;
         return angleStep * deltaTime;
     }
+
+    public static GameObject GetCentre()
+    {
+        return GameObject.FindGameObjectWithTag($"Centre");
+    }
 }

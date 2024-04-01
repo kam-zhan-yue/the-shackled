@@ -8,6 +8,7 @@ using UnityEngine.InputSystem;
 
 public class Casting : MonoBehaviour
 {
+    [SerializeField] private BoolVariable casting;
     [SerializeField] private FloatVariable castMultiplier;
     [SerializeField] private float chargeTime = 1f;
     private float _chargeTimer = 0f;
@@ -20,24 +21,56 @@ public class Casting : MonoBehaviour
     }
 
     private State _state;
+    private PlayerControls _playerControls;
 
-    private void Update()
+    private void Start()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        _playerControls = new PlayerControls();
+        _playerControls.Game.Shoot.performed += Shoot;
+    }
+    
+    private void Shoot(InputAction.CallbackContext callbackContext)
+    {
+        switch (_state)
         {
-            switch (_state)
-            {
-                case State.Ready:
-                    Charge().Forget();
-                    break;
-                case State.Charging:
-                    Cast();
-                    break;
-                case State.Casted:
-                    ResetCast();
-                    break;
-            }
+            case State.Charging:
+                _state = State.Casted;
+                break;
         }
+    }
+
+    // private void Update()
+    // {
+    //     if (Input.GetMouseButtonDown(0))
+    //     {
+    //         switch (_state)
+    //         {
+    //             case State.Ready:
+    //                 Charge().Forget();
+    //                 break;
+    //             case State.Charging:
+    //                 Cast();
+    //                 break;
+    //             case State.Casted:
+    //                 ResetCast();
+    //                 break;
+    //         }
+    //     }
+    // }
+
+    public async UniTask<float> GetCastMultiplier(CancellationToken token)
+    {
+        return await ChargeAsync(token);
+    }
+
+    private void EnableInput()
+    {
+        _playerControls.Enable();
+    }
+
+    private void DisableInput()
+    {
+        _playerControls.Disable();
     }
 
     private async UniTask Charge()
@@ -47,8 +80,10 @@ public class Casting : MonoBehaviour
 
     private async UniTask<float> ChargeAsync(CancellationToken token)
     {
-        castMultiplier.Value = 0f;
         _state = State.Charging;
+        EnableInput();
+        casting.Value = true;
+        castMultiplier.Value = 0f;
         bool up = true;
         while (_state == State.Charging)
         {
@@ -65,11 +100,13 @@ public class Casting : MonoBehaviour
                     castMultiplier.Value -= 1 / chargeTime * Time.deltaTime;
                 }
 
-                await UniTask.NextFrame(cancellationToken:token);
+                await UniTask.NextFrame(token);
             }
             up = !up;
         }
 
+        DisableInput();
+        casting.Value = false;
         return castMultiplier.Value;
     }
     
