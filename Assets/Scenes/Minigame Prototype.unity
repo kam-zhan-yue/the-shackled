@@ -205,7 +205,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   castMultiplier: {fileID: 11400000, guid: 8587ebf0629434e5497099498b5056a4, type: 2}
-  chargeTime: 1
+  chargeTime: 0.5
 --- !u!1 &968789005
 GameObject:
   m_ObjectHideFlags: 0

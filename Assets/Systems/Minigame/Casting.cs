@@ -8,8 +8,8 @@ using UnityEngine.InputSystem;
 
 public class Casting : MonoBehaviour
 {
-    public FloatVariable castMultiplier;
-    public float chargeTime = 1f;
+    [SerializeField] private FloatVariable castMultiplier;
+    [SerializeField] private float chargeTime = 1f;
     private float _chargeTimer = 0f;
 
     private enum State
@@ -28,7 +28,7 @@ public class Casting : MonoBehaviour
             switch (_state)
             {
                 case State.Ready:
-                    ChargeAsync(this.GetCancellationTokenOnDestroy()).Forget();
+                    Charge().Forget();
                     break;
                 case State.Charging:
                     Cast();
@@ -40,14 +40,18 @@ public class Casting : MonoBehaviour
         }
     }
 
-    private async UniTask ChargeAsync(CancellationToken token)
+    private async UniTask Charge()
+    {
+        float value = await ChargeAsync(this.GetCancellationTokenOnDestroy());
+    }
+
+    private async UniTask<float> ChargeAsync(CancellationToken token)
     {
         castMultiplier.Value = 0f;
         _state = State.Charging;
         bool up = true;
         while (_state == State.Charging)
         {
-            Debug.Log(up ? "Go Up!" : "Go Down!");
             _chargeTimer = chargeTime;
             while (_chargeTimer > 0f && _state == State.Charging)
             {
@@ -65,6 +69,8 @@ public class Casting : MonoBehaviour
             }
             up = !up;
         }
+
+        return castMultiplier.Value;
     }
     
     private void Cast()

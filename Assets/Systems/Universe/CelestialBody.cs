@@ -4,17 +4,25 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 
 [RequireComponent (typeof (Rigidbody2D))]
-public class CelestialBody : MonoBehaviour
+public class CelestialBody : MonoBehaviour, IHookable
 {
-    public bool clockwiseOrbit = false;
-    [Range(0f, 360f)] public float startAngle = 0f;
-    public float orbitalPeriod = 1f;
-    [Range(1f, 5f)]
-    public float orbitalRadius = 1f;
-    public BodyType bodyType;
+    [SerializeField] private bool clockwiseOrbit = false;
+    [SerializeField, Range(0f, 360f)] private float startAngle = 0f;
+    [SerializeField] private float orbitalPeriod = 1f;
+    [SerializeField, Range(1f, 5f)] private float orbitalRadius = 1f;
+    [SerializeField] private BodyType bodyType;
     [HideIf("bodyType", BodyType.Center)] 
-    public Transform parent;
+    [SerializeField] private Transform parent;
     private Rigidbody2D _rigidbody;
+
+    private State _state = State.Orbiting;
+
+    private enum State
+    {
+        Orbiting = 0,
+        Hooked = 1,
+        Reeling = 2,
+    }
 
     private float _angle;
 
@@ -43,6 +51,20 @@ public class CelestialBody : MonoBehaviour
 
     private void FixedUpdate()
     {
+        switch (_state)
+        {
+            case State.Orbiting:
+                Orbit();
+                break;
+            case State.Hooked:
+                break;
+            case State.Reeling:
+                break;
+        }
+    }
+
+    private void Orbit()
+    {
         if (bodyType != BodyType.Center)
         {
             float angleStep = UniverseHelper.GetAngleStep(Time.fixedDeltaTime, orbitalPeriod);
@@ -66,8 +88,21 @@ public class CelestialBody : MonoBehaviour
     {
         if (parent != null)
         {
-            
             Gizmos.DrawSphere(GetStartPosition(), 0.1f);
         }
+    }
+
+    public void Hook(Transform pole)
+    {
+        Debug.Log($"{gameObject.name} is hooked to {pole.name} !");
+        _state = State.Hooked;
+        transform.parent = pole;
+        _rigidbody.angularVelocity = 0f;
+        _rigidbody.velocity = Vector2.zero;
+    }
+
+    public void Reel(Transform pole)
+    {
+        
     }
 }
