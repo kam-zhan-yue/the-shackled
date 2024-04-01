@@ -12,6 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b32f6402a50a74fa5ad07db59d951e0f, type: 3}
   m_Name: Planet Database
   m_EditorClassIdentifier: 
+  moonMinMaxData:
+    orbitRadius: {x: 1, y: 2}
+    bodyRadius: {x: 0.4, y: 0.6}
+    separation: {x: 0.071605854, y: 0.3693726}
+  planetMinMaxData:
+    orbitRadius: {x: 1, y: 2}
+    bodyRadius: {x: 1, y: 2}
+    separation: {x: 0.1, y: 0.5}
   planets:
   - id: blue
     prefab: {fileID: 5513879070048414371, guid: 1326bbb2960bb4f06afe4f656be1251c, type: 3}

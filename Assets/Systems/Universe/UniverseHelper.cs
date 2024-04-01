@@ -7,7 +7,12 @@ public static class UniverseHelper
     public const float CAMERA_STEP = 10f;
     public const float BLACK_HOLE_SPAWN_RATE = 0.1f;
     public const int MAX_MOONS = 5;
-    public const int MAX_PLANETS = 7;
+    public const int MAX_PLANETS = 3;
+    
+    public static float RandomValue(Vector2 randomVector)
+    {
+        return Random.Range(randomVector.x, randomVector.y);
+    }
     
     public static int GetFibonacci(int n)
     {
@@ -39,7 +44,12 @@ public static class UniverseHelper
 
     public static float GetScaleModifier(float distance)
     {
-        return distance * 0.1f;
+        return distance * 0.2f;
+    }
+
+    public static bool ClockwiseRotation()
+    {
+        return Random.value > 0.5f;
     }
     
     // Function to convert angle (in degrees) to rotation vector (x, y)

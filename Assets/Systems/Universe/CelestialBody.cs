@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 [RequireComponent (typeof (Rigidbody2D))]
 public abstract class CelestialBody : MonoBehaviour, IHookable
 {
-    [SerializeField] private OrbitalData orbitalData;
+    [SerializeField, HideLabel] private OrbitalData orbitalData;
     protected Transform parent;
     private Rigidbody2D _rigidbody;
 
@@ -28,6 +28,11 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+    }
+
+    public void SetClockwise(bool clockwise)
+    {
+        orbitalData.SetClockwise(clockwise);
     }
 
     public void SetScale(Vector3 scale)

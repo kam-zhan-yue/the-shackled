@@ -9,11 +9,18 @@ using Random = UnityEngine.Random;
 
 public class Universe : MonoBehaviour, IUniverseService
 {
+    private enum SpawnType
+    {
+        Planet = 0,
+        SolarSystem = 1,
+    }
     [BoxGroup("Scriptable Objects"), SerializeField] private PlanetDatabase planetDatabase;
     [NonSerialized, ShowInInspector, ReadOnly] private List<CelestialBody> _bodies = new();
     private GameObject _centre;
     private OrbitalSystem _universeOrbital;
     [SerializeField] private float angleStep = 10f;
+    [SerializeField] private int minSpawnPerRing = 1;
+    [SerializeField] private int maxSpawnPerRing = 4;
     private int _ring = 3;
     
     private void Awake()
@@ -74,8 +81,33 @@ public class Universe : MonoBehaviour, IUniverseService
         int fibonacci = UniverseHelper.GetFibonacci(_ring);
         float angle = angleStep * fibonacci;
         float scale = UniverseHelper.GetScaleModifier(fibonacci);
-        planetDatabase.GeneratePlanet(fibonacci, angle, scale);
+        int spawnPerRing = Random.Range(minSpawnPerRing, maxSpawnPerRing);
+        float innerAngleStep = 360f / spawnPerRing;
+        for (int j = 0; j < spawnPerRing; ++j)
+        {
+            float spawnAngle = angle + j * innerAngleStep;
+            SpawnType spawnType = GetSpawnType();
+            switch (spawnType)
+            {
+                case SpawnType.Planet:
+                    planetDatabase.GeneratePlanet(fibonacci, scale, spawnAngle);
+                    break;
+                case SpawnType.SolarSystem:
+                    planetDatabase.GenerateSolarSystem(fibonacci, scale, angle);
+                    break;
+            }
+        }
         _ring++;
+    }
+
+    private SpawnType GetSpawnType()
+    {
+        if (_ring < 5)
+        {
+            return SpawnType.Planet;
+        }
+
+        return Random.value > 0.8f ? SpawnType.Planet : SpawnType.SolarSystem;
     }
 
     [Button]
@@ -93,8 +125,15 @@ public class Universe : MonoBehaviour, IUniverseService
         {
             int fibonacci = UniverseHelper.GetFibonacci(i);
             float angle = angleStep * fibonacci;
-            Vector2 rotation = UniverseHelper.ConvertAngleToRotation(angle);
-            Gizmos.DrawSphere(rotation * fibonacci, UniverseHelper.GetScaleModifier(fibonacci));
+            int spawnPerRing = maxSpawnPerRing;
+            float innerAngleStep = 360f / spawnPerRing;
+            for (int j = 0; j < spawnPerRing; ++j)
+            {
+                float spawnAngle = angle + j * innerAngleStep;
+                Vector2 rotation = UniverseHelper.ConvertAngleToRotation(spawnAngle);
+                Gizmos.DrawSphere(rotation * fibonacci, UniverseHelper.GetScaleModifier(fibonacci));
+                Debug.Log($"Draw Sphere at {spawnAngle}");
+            }
             Gizmos.DrawWireSphere(transform.position, fibonacci);
         }
     }

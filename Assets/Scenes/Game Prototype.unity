@@ -839,6 +839,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3615299115980164371, guid: 11683f98e978c4f43b58608380093200, type: 3}
+      propertyPath: spawnPerRing
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 7804099844558017303, guid: 11683f98e978c4f43b58608380093200, type: 3}
       propertyPath: m_Name
       value: ServiceLocator
