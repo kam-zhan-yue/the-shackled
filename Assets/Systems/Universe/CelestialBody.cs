@@ -9,7 +9,6 @@ public class CelestialBody : MonoBehaviour
     public bool clockwiseOrbit = false;
     [Range(0f, 360f)] public float startAngle = 0f;
     public float orbitalPeriod = 1f;
-    public float orbitalSpeed = 200f;
     [Range(1f, 5f)]
     public float orbitalRadius = 1f;
     public BodyType bodyType;
@@ -18,8 +17,6 @@ public class CelestialBody : MonoBehaviour
     private Rigidbody2D _rigidbody;
 
     private float _angle;
-
-    private Vector2 Velocity { get; set; } = new Vector2();
 
     private void Awake()
     {
@@ -36,40 +33,25 @@ public class CelestialBody : MonoBehaviour
     {
         transform.position = GetStartPosition();
     }
-
-    // Function to convert angle (in degrees) to rotation vector (x, y)
-    private Vector2 ConvertAngleToRotation(float angleDegrees)
-    {
-        // Convert angle from degrees to radians
-        float angleRadians = angleDegrees * Mathf.Deg2Rad;
-
-        // Calculate x and y components of the rotation vector
-        float x = Mathf.Cos(angleRadians);
-        float y = Mathf.Sin(angleRadians);
-
-        return new Vector2(x, y);
-    }
     
     private Vector2 GetStartPosition()
     {
-        Vector2 rotation = ConvertAngleToRotation(startAngle);
+        Vector2 rotation = UniverseHelper.ConvertAngleToRotation(startAngle);
         Vector3 parentPos = parent.transform.position;
         return parentPos + (Vector3)rotation.normalized * orbitalRadius;
-    }
-
-    private float GetAngleStep(float deltaTime)
-    {
-        float angleStep = 360 / orbitalPeriod;
-        return angleStep * deltaTime;
     }
 
     private void FixedUpdate()
     {
         if (bodyType != BodyType.Center)
         {
-            _angle += GetAngleStep(Time.fixedDeltaTime);
-
-            Vector2 rotation = ConvertAngleToRotation(_angle);
+            float angleStep = UniverseHelper.GetAngleStep(Time.fixedDeltaTime, orbitalPeriod);
+            if (clockwiseOrbit)
+                _angle -= angleStep;
+            else
+                _angle += angleStep;
+            
+            Vector2 rotation = UniverseHelper.ConvertAngleToRotation(_angle);
             Vector2 position = (Vector2)parent.transform.position + rotation * orbitalRadius;
             _rigidbody.MovePosition(position);
         }
