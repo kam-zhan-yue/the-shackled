@@ -8,12 +8,17 @@ public class OrbitalData
     [SerializeField] private bool clockwiseOrbit = false;
     [SerializeField, Range(0f, 360f)] private float startAngle = 0f;
     [SerializeField] private float orbitalPeriod = 1f;
-    [SerializeField, Range(1f, 100f)] private float orbitalRadius = 1f;
+    [SerializeField, Range(0f, 100f)] private float orbitalRadius = 1f;
 
     public bool ClockwiseOrbit => clockwiseOrbit;
     public float StartAngle => startAngle;
     public float OrbitalPeriod => orbitalPeriod;
     public float OrbitalRadius => orbitalRadius;
+
+    public void SetStartingAngle(float angle)
+    {
+        startAngle = angle;
+    }
 
     public void SetOrbitalRadius(float radius)
     {

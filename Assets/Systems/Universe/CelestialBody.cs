@@ -14,6 +14,7 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
     private Rigidbody2D _rigidbody;
 
     private State _state = State.Orbiting;
+    public float Radius => transform.localScale.magnitude;
 
     private enum State
     {
@@ -32,6 +33,11 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
     public void SetScale(Vector3 scale)
     {
         transform.localScale = scale;
+    }
+
+    public void SetStartingAngle(float angle)
+    {
+        orbitalData.SetStartingAngle(angle);
     }
 
     public void SetOrbitalRadius(float radius)
@@ -121,6 +127,7 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(parent.transform.position, orbitalData.OrbitalRadius);
+        if(parent != null)
+            Gizmos.DrawWireSphere(parent.transform.position, orbitalData.OrbitalRadius);
     }
 }

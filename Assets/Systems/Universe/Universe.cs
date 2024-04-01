@@ -12,6 +12,9 @@ public class Universe : MonoBehaviour, IUniverseService
     [BoxGroup("Scriptable Objects"), SerializeField] private PlanetDatabase planetDatabase;
     [NonSerialized, ShowInInspector, ReadOnly] private List<CelestialBody> _bodies = new();
     private GameObject _centre;
+    private OrbitalSystem _universeOrbital;
+    [SerializeField] private float angleStep = 10f;
+    private int _ring = 3;
     
     private void Awake()
     {
@@ -63,5 +66,36 @@ public class Universe : MonoBehaviour, IUniverseService
     public Transform GetCentre()
     {
         return _centre.transform;
+    }
+
+    [Button]
+    public void SpawnRing()
+    {
+        int fibonacci = UniverseHelper.GetFibonacci(_ring);
+        float angle = angleStep * fibonacci;
+        float scale = UniverseHelper.GetScaleModifier(fibonacci);
+        planetDatabase.GeneratePlanet(fibonacci, angle, scale);
+        _ring++;
+    }
+
+    [Button]
+    public void DebugSpawnRing(int rings)
+    {
+        for (int i = 0; i < rings; ++i)
+        {
+            SpawnRing();
+        }
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        for (int i = _ring; i < 100; ++i)
+        {
+            int fibonacci = UniverseHelper.GetFibonacci(i);
+            float angle = angleStep * fibonacci;
+            Vector2 rotation = UniverseHelper.ConvertAngleToRotation(angle);
+            Gizmos.DrawSphere(rotation * fibonacci, UniverseHelper.GetScaleModifier(fibonacci));
+            Gizmos.DrawWireSphere(transform.position, fibonacci);
+        }
     }
 }

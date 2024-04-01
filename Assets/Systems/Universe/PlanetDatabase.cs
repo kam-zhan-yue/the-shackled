@@ -20,7 +20,7 @@ public class PlanetDatabase : ScriptableObject
     }
 
     [Button]
-    public OrbitalSystem GeneratePlanet()
+    public OrbitalSystem GeneratePlanet(float radius, float angle = 0f, float scale = 0f)
     {
         PlanetData planetData = GetRandomPlanet();
         Planet planet = Instantiate(planetData.prefab);
@@ -35,28 +35,28 @@ public class PlanetDatabase : ScriptableObject
             }
         }
         
-        OrbitalSystem orbitalSystem = new(planet, moons, Random.Range(1f, 10f), 1f, 2f);
-        orbitalSystem.Arrange(0.1f, 0.5f, 0.5f, 1f);
+        OrbitalSystem orbitalSystem = new(planet, moons, radius, angle, 1f, 2f);
+        orbitalSystem.ArrangeOrbits(0.1f, 0.5f, 0.5f, 1f);
         return orbitalSystem;
     }
 
     [Button]
-    public OrbitalSystem GenerateSolarSystem()
+    public OrbitalSystem GenerateSolarSystem(float radius, float angle = 0f)
     {
         CelestialBody centre = GenerateCentre();
         int numPlanets = Random.Range(1, UniverseHelper.MAX_PLANETS);
         List<OrbitalSystem> solarSystemOrbitals = new();
         for (int i = 0; i < numPlanets; ++i)
         {
-            OrbitalSystem planetOrbitalSystem = GeneratePlanet();
+            OrbitalSystem planetOrbitalSystem = GeneratePlanet(Random.Range(1f, 5f));
             Planet planet = (Planet)planetOrbitalSystem.Centre;
             planet.SetParent(centre.transform);
             planetOrbitalSystem.Centre.transform.parent = centre.transform;
             solarSystemOrbitals.Add(planetOrbitalSystem);
         }
 
-        OrbitalSystem orbitalSystem = new(centre, solarSystemOrbitals, Random.Range(1f, 10f));
-        orbitalSystem.Arrange(1f, 2f, 1f, 3f);
+        OrbitalSystem orbitalSystem = new(centre, solarSystemOrbitals, radius);
+        orbitalSystem.ArrangeOrbits(1f, 2f, 1f, 3f);
         return orbitalSystem;
     }
 

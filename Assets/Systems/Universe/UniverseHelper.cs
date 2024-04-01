@@ -4,10 +4,43 @@ public static class UniverseHelper
 {
     public const float GRAVITATIONAL_CONSTANT = 0.0001f;
     public const float PHYSICS_TIME_STEP = 0.01f;
-    public const float CAMERA_STEP = 5f;
+    public const float CAMERA_STEP = 10f;
     public const float BLACK_HOLE_SPAWN_RATE = 0.1f;
     public const int MAX_MOONS = 5;
     public const int MAX_PLANETS = 7;
+    
+    public static int GetFibonacci(int n)
+    {
+        if (n <= 0)
+        {
+            Debug.LogError("Invalid input. Position of Fibonacci number must be a positive integer.");
+            return -1; // Error condition
+        }
+        else if (n == 1 || n == 2)
+        {
+            return 1; // First two Fibonacci numbers are 1
+        }
+        else
+        {
+            int a = 1;
+            int b = 2;
+            int result = 0;
+
+            for (int i = 3; i <= n; i++)
+            {
+                result = a + b;
+                a = b;
+                b = result;
+            }
+
+            return result;
+        }
+    }
+
+    public static float GetScaleModifier(float distance)
+    {
+        return distance * 0.1f;
+    }
     
     // Function to convert angle (in degrees) to rotation vector (x, y)
     public static Vector2 ConvertAngleToRotation(float angleDegrees)
