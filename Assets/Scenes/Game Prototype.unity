@@ -567,7 +567,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c73fcd9b8e1cf450ab8851edef12bdff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scale: {fileID: 0}
+  gameSettings: {fileID: 11400000, guid: 9213145d8212349f7812685f9cd23dba, type: 2}
   casting: {fileID: 31353730}
   shootTowards: {fileID: 421334420}
 --- !u!58 &949194460
