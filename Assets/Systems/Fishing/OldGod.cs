@@ -92,10 +92,17 @@ public class OldGod : MonoBehaviour
         CancellationToken token = this.GetCancellationTokenOnDestroy();
         _state = State.Casting;
         Vector3 targetPosition = _main.ScreenToWorldPoint(Input.mousePosition);
-        float castMultiplier = await casting.GetCastMultiplier(token);
-        
-        _state = State.Shooting;
-        await firePoint.Shoot(targetPosition, castMultiplier, token);
+        if (gameSettings.debug)
+        {
+            float castMultiplier = await casting.GetCastMultiplier(token);
+            _state = State.Shooting;
+            await firePoint.Shoot(targetPosition, castMultiplier, token);
+        }
+        else
+        {
+            _state = State.Shooting;
+            await firePoint.Shoot(targetPosition, 1f, token);
+        }
         // await shootTowards.Shoot(targetPosition, castMultiplier, token);
 
         FinishAbsorbing();

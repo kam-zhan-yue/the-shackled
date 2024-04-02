@@ -68,6 +68,7 @@ public class Universe : MonoBehaviour, IUniverseService
     public void ReportRingEaten(int id)
     {
         Debug.Log($"Ring {id} Completely Eaten!");
+        SpawnRing();
     }
 
     private void FixedUpdate()
@@ -134,8 +135,6 @@ public class Universe : MonoBehaviour, IUniverseService
 
     private SpawnType GetSpawnType()
     {
-        if (_ringIndex < 100)
-            return SpawnType.SolarSystem;
         if (_ringIndex < 5)
         {
             return SpawnType.Planet;

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moonMinMaxData:
     orbitRadius: {x: 0, y: 0}
-    bodyRadius: {x: 0.5, y: 1.5}
+    bodyRadius: {x: 0.2, y: 0.4}
     separation: {x: 1, y: 2}
     orbitalPeriod: {x: 2, y: 5}
   planetMinMaxData:
