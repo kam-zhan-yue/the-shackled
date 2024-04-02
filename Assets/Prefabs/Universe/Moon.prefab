@@ -80,6 +80,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9172874309295646154, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: bdb6a5d164b29478a8fabb22b1c5c9c2, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -105,7 +109,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15f2840da0c424318bf5ce1d2b8f82a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clockwiseOrbit: 0
-  startAngle: 0
-  orbitalPeriod: 1
-  orbitalRadius: 1
+  orbitalData:
+    clockwiseOrbit: 0
+    startAngle: 0
+    orbitalPeriod: 0
+    orbitalRadius: 0
+    bodyScale: 0
+  parentBody: {fileID: 0}
