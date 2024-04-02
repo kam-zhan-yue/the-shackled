@@ -30,9 +30,23 @@ public class TentacleMovement : MonoBehaviour
     private float Frequency => frequency * 1/_scaleFactor;
     private float Amplitude => amplitude * _scaleFactor;
 
+    private FishingPole _fishingPole;
+    public Action<IHookable> OnHook;
+
     private void Awake()
     {
         _circleCollider = GetComponent<CircleCollider2D>();
+        _fishingPole = GetComponent<FishingPole>();
+    }
+
+    private void Start()
+    {
+        _fishingPole.OnHook += Hook;
+    }
+
+    private void Hook(IHookable hookable)
+    {
+        OnHook?.Invoke(hookable);
     }
 
     public void Initialize_Point(Vector3 _direction, float _speed, float width, Vector3 destination = default)
@@ -125,6 +139,14 @@ public class TentacleMovement : MonoBehaviour
             // gameObject.SetActive(false);
             transform.position = origin;
             ReachedOrigin?.Invoke();
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (_fishingPole)
+        {
+            _fishingPole.OnHook -= Hook;
         }
     }
 }

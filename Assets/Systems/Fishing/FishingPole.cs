@@ -6,11 +6,13 @@ using UnityEngine;
 
 public class FishingPole : MonoBehaviour
 {
+    public Action<IHookable> OnHook;
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.TryGetComponent(out IHookable hookable))
         {
             hookable.Hook(transform);
+            OnHook?.Invoke(hookable);
         }
     }
 }

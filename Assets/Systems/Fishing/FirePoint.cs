@@ -28,6 +28,8 @@ public class FirePoint : MonoBehaviour
     private float _originalTolerance = 0f;
 
     private float _scaleFactor = 0f;
+
+    private FishingPole _fishingPole;
     
     private void Awake()
     {
@@ -49,6 +51,7 @@ public class FirePoint : MonoBehaviour
             _point.transform.parent = gameObject.transform;
             _point.Initialize_Point(direction, 0 , 0);
             _point.gameObject.SetActive(false);
+            _point.OnHook += OnHook;
             //add to list
             point_list.Add(_point);
         }
@@ -56,6 +59,11 @@ public class FirePoint : MonoBehaviour
         point_list[0].ReachedOrigin += ReachedOrigin;
     }
 
+    private void OnHook(IHookable hookable)
+    {
+        _reachedDestination = true;
+    }
+    
     private void ReachedOrigin()
     {
         _reachedOrigin = true;
@@ -249,6 +257,10 @@ public class FirePoint : MonoBehaviour
         if (point_list.Count > 0)
         {
             point_list[0].ReachedOrigin -= ReachedOrigin;
+            for (int i = 0; i < point_list.Count; ++i)
+            {
+                point_list[i].OnHook -= OnHook;
+            }
         }
     }
 }
