@@ -43,6 +43,7 @@ public class OldGod : MonoBehaviour, IGodService
 
     private async UniTask StartAsync(CancellationToken token)
     {
+        ServiceLocator.Instance.Get<IAudioService>().Play("MAIN_TRACK");
         _main = Camera.main;
         if (gameSettings.showIntroAnimation)
         {
