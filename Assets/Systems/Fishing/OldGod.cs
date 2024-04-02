@@ -29,9 +29,16 @@ public class OldGod : MonoBehaviour
 
     private void Start()
     {
+        StartAsync(this.GetCancellationTokenOnDestroy()).Forget();
+    }
+
+    private async UniTask StartAsync(CancellationToken token)
+    {
         _main = Camera.main;
         if (gameSettings.showIntroAnimation)
         {
+            SetCameraSize(100f);
+            await UniTask.WaitForSeconds(1f, cancellationToken:token);
             DOTween.To(SetCameraSize, 100f, UniverseHelper.START_CAMERA, 1.2f).SetEase(Ease.InOutQuint).OnComplete(Init);
         }
         else
