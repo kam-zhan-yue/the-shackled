@@ -1,13 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading;
-using System.Xml.Schema;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Kuroneko.UtilityDelivery;
 using Sirenix.OdinInspector;
-using UnityAtoms.BaseAtoms;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -37,7 +32,7 @@ public class OldGod : MonoBehaviour
         _main = Camera.main;
         if (gameSettings.showIntroAnimation)
         {
-            DOTween.To(SetCameraSize, 100f, 10f, 1.2f).SetEase(Ease.InOutQuint).OnComplete(Init);
+            DOTween.To(SetCameraSize, 100f, UniverseHelper.START_CAMERA, 1.2f).SetEase(Ease.InOutQuint).OnComplete(Init);
         }
         else
         {
@@ -83,7 +78,7 @@ public class OldGod : MonoBehaviour
     public void ZoomOut()
     {
         float originalSize = _main.orthographicSize;
-        float newSize = _scaleFactor * UniverseHelper.CAMERA_STEP;
+        float newSize = UniverseHelper.START_CAMERA + _scaleFactor * UniverseHelper.CAMERA_STEP;
         DOTween.To(SetCameraSize, originalSize, newSize, 0.5f).SetEase(Ease.OutQuart);
     }
 

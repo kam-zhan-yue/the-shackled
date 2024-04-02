@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Kuroneko.UtilityDelivery;
 using Sirenix.OdinInspector;
@@ -9,14 +11,18 @@ using Random = UnityEngine.Random;
 [RequireComponent (typeof (Rigidbody2D))]
 public abstract class CelestialBody : MonoBehaviour, IHookable
 {
+    [SerializeField] private float sizeMultiplier = 1f;
     [SerializeField, HideLabel] private OrbitalData orbitalData;
     protected Transform parent;
     private Rigidbody2D _rigidbody;
+    private SpriteRenderer _spriteRenderer;
 
     private State _state = State.Orbiting;
     private CelestialData _data = new CelestialData(0.5f);
-    public float Radius => transform.localScale.magnitude;
+    public float Radius => transform.localScale.magnitude * sizeMultiplier;
     public Action<CelestialBody> onAbsorb;
+    private LineRenderer _lineRenderer;
+    private int _subdivisions = 100;
 
     private enum State
     {
@@ -30,6 +36,8 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        _lineRenderer = GetComponent<LineRenderer>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     public void SetClockwise(bool clockwise)
@@ -87,6 +95,11 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
         // Simulate();
     }
 
+    private void Update()
+    {
+        DrawOrbit();
+    }
+
     public void Simulate()
     {
         switch (_state)
@@ -124,6 +137,7 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
     public virtual void Hook(Transform pole)
     {
         Debug.Log($"{gameObject.name} is hooked to {pole.name} !");
+        _lineRenderer.positionCount = 0;
         _state = State.Hooked;
         transform.parent = pole;
         _rigidbody.angularVelocity = 0f;
@@ -142,11 +156,12 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
 
     public virtual CelestialData Absorb()
     {
+        Debug.Log($"LOG | {name} is absorbed");
         onAbsorb?.Invoke(this);
         ForceMove();
         transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.OutQuart).OnComplete(() =>
         {
-            Destroy(gameObject);
+            DestroyAsync(this.GetCancellationTokenOnDestroy()).Forget();
         });
         return _data;
     }
@@ -155,6 +170,27 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
     {
         Vector3 position = ServiceLocator.Instance.Get<IUniverseService>().GetCentre().position;
         transform.DOMove(position, 0.2f).SetEase(Ease.OutQuart);
+    }
+
+    private void DrawOrbit()
+    {
+        float angleStep = 2f * Mathf.PI / _subdivisions;
+        _lineRenderer.positionCount = _subdivisions;
+        Vector3 offset = parent.transform.position;
+        for (int i = 0; i < _subdivisions; ++i)
+        {
+            float xPosition = orbitalData.OrbitalRadius * Mathf.Cos(angleStep * i);
+            float yPosition = orbitalData.OrbitalRadius * Mathf.Sin(angleStep * i);
+            Vector3 pointPosition = new Vector3(xPosition, yPosition, 0f);
+            Vector3 finalPosition = pointPosition + offset;
+            _lineRenderer.SetPosition(i, finalPosition);
+        }
+    }
+
+    private async UniTask DestroyAsync(CancellationToken token)
+    {
+        await UniTask.WaitForSeconds(5f, cancellationToken:token);
+        Destroy(gameObject);
     }
 
     private void OnDrawGizmosSelected()

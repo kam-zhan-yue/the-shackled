@@ -2,11 +2,19 @@ using UnityEngine;
 
 public static class UniverseHelper
 {
-    public const float CAMERA_STEP = 6f;
-    public const float SCALE_STEP = 2.5f;
+    public const float START_CAMERA = 10f;
+    public const float CAMERA_STEP = 4f;
+    public const float SCALE_STEP = 1f;
     public const float BLACK_HOLE_SPAWN_RATE = 0.1f;
     public const int MAX_MOONS = 5;
     public const int MAX_PLANETS = 3;
+    private const float SCALE_MODIFIER = 0.15f;
+    public const float TENTACLE_SPEED_MODIFIER = 2f;
+
+    public static float GetTentacleSpeed(float originalSpeed, float scaleFactor)
+    {
+        return originalSpeed + TENTACLE_SPEED_MODIFIER * scaleFactor * scaleFactor;
+    }
     
     public static float RandomValue(Vector2 randomVector)
     {
@@ -43,7 +51,7 @@ public static class UniverseHelper
 
     public static float GetScaleModifier(float distance)
     {
-        return distance * 0.1f;
+        return distance * SCALE_MODIFIER;
     }
 
     public static bool ClockwiseRotation()

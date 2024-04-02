@@ -20,6 +20,10 @@ PrefabInstance:
       propertyPath: m_Constraints
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 5830734531014702092, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -451604974, guid: 9f9c77f52bd5439439d78dc28d14232d, type: 3}
     - target: {fileID: 7576068518995142766, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -76,6 +80,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8611631126669632528, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
+      propertyPath: m_Radius
+      value: 2.2
+      objectReference: {fileID: 0}
     - target: {fileID: 9172874309295646154, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -105,6 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c1813725f2784561bba3b6e66f8c13c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sizeMultiplier: 3
   orbitalData:
     clockwiseOrbit: 0
     startAngle: 0

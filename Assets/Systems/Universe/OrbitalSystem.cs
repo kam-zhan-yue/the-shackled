@@ -61,6 +61,7 @@ public class OrbitalSystem
 
     private void InitCentre()
     {
+        _centre.SetClockwise(_orbitalData.ClockwiseOrbit);
         _centre.SetScale(Vector3.one * _orbitalData.Scale);
         _centre.SetOrbitalRadius(_orbitalRadius);
         _centre.SetStartingAngle( _orbitalData.StartAngle);

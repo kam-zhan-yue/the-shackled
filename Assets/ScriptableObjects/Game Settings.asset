@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f91ed532dd26448b594cdcb5cb7d5f30, type: 3}
   m_Name: Game Settings
   m_EditorClassIdentifier: 
-  initialRings: 10
+  showIntroCinematic: 1
+  showIntroAnimation: 1
+  spawnPlanets: 0
+  initialRings: 0

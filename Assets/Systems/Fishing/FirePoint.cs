@@ -6,6 +6,7 @@ using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Rendering.Universal;
 
 public class FirePoint : MonoBehaviour
 {
@@ -106,7 +107,7 @@ public class FirePoint : MonoBehaviour
         _reachedOrigin = false;
         cursor_position = finalPoint;
         cursor_position.z = 0f;
-        speed = _originalSpeed + _scaleFactor * 0.5f;
+        speed = UniverseHelper.GetTentacleSpeed(_originalSpeed, _scaleFactor);
         destination_tolerance_check = _originalTolerance * _scaleFactor;
         StartCoroutine(DelayBetweenShots(delay_between_firing_points));
         await UniTask.WaitUntil(() => _reachedOrigin, cancellationToken: token);

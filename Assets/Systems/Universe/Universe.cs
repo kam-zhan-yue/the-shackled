@@ -105,6 +105,7 @@ public class Universe : MonoBehaviour, IUniverseService
 
         //Determine if the ring is clockwise
         bool clockwise = UniverseHelper.ClockwiseRotation();
+        Debug.Log($"Is Clockwise: {clockwise}");
         //Set the orbital period for all elements in the ring
         float period = UniverseHelper.RandomValue(planetDatabase.planetMinMaxData.orbitalPeriod);
         for (int j = 0; j < spawnPerRing; ++j)
@@ -133,6 +134,8 @@ public class Universe : MonoBehaviour, IUniverseService
 
     private SpawnType GetSpawnType()
     {
+        if (_ringIndex < 100)
+            return SpawnType.SolarSystem;
         if (_ringIndex < 5)
         {
             return SpawnType.Planet;
