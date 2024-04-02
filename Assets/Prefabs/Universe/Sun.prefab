@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Sun
       objectReference: {fileID: 0}
+    - target: {fileID: 3709255912860858690, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 7576068518995142766, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
       propertyPath: m_LocalScale.x
       value: 2
@@ -102,3 +106,4 @@ MonoBehaviour:
     startAngle: 0
     orbitalPeriod: 1
     orbitalRadius: 1
+    bodyScale: 0
