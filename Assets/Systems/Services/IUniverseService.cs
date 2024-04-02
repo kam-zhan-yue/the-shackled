@@ -7,4 +7,7 @@ public interface IUniverseService : IGameService
     public void StartSimulation();
     public void PauseSimulation();
     public void ReportRingEaten(int id);
+    public void SpawnRing();
+    public void EatRing();
+    public void DebugClass();
 }

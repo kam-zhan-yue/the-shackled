@@ -26,6 +26,7 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
     private State _state = State.Orbiting;
     private CelestialData _data = new CelestialData(0.5f);
     private int _subdivisions = 100;
+    private bool parentSet = false;
 
     private enum State
     {
@@ -42,6 +43,9 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
         _lineRenderer = GetComponent<LineRenderer>();
         _circleCollider = GetComponent<CircleCollider2D>();
         gameObject.name = $"{gameObject.name} {gameObject.GetInstanceID()}";
+        
+        SetParent();
+        parentSet = true;
     }
 
     public void SetClockwise(bool clockwise)
@@ -77,7 +81,6 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
     private void Start()
     {
         _angle = orbitalData.StartAngle;
-        SetParent();
         InitialiseDistance();
     }
 
@@ -126,17 +129,16 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
             _angle -= angleStep;
         else
             _angle += angleStep;
+
+        if (_angle > 360f)
+            _angle = 0f;
+        if (_angle < -360f)
+            _angle = 0f;
         
         Vector2 rotation = UniverseHelper.ConvertAngleToRotation(_angle);
-        if (parent == null)
-        {
-            Debug.Log($"ERROR {gameObject.name}");
-        }
-        else
-        {
-            Vector2 position = (Vector2)parent.transform.position + rotation * orbitalData.OrbitalRadius;
-            _rigidbody.MovePosition(position);
-        }
+        Vector2 position = (Vector2)parent.transform.position + rotation * orbitalData.OrbitalRadius;
+        Debug.Log($"{name} Moving Position: {position} Angle: {_angle} Rotation: {rotation}");
+        _rigidbody.MovePosition(position);
     }
 
     public virtual void Hook(Transform pole)

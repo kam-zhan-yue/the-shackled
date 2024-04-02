@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Kuroneko.UtilityDelivery;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -21,6 +22,24 @@ public class PlanetDatabase : ScriptableObject
     {
         int randomIndex = Random.Range(0, planets.Length);
         return planets[randomIndex];
+    }
+
+    [FoldoutGroup("Debug Functions"), Button]
+    private void SpawnRing()
+    {
+        ServiceLocator.Instance.Get<IUniverseService>().SpawnRing();
+    }
+
+    [FoldoutGroup("Debug Functions"), Button]
+    private void EatRing()
+    {
+        ServiceLocator.Instance.Get<IUniverseService>().EatRing();
+    }
+    
+    [FoldoutGroup("Debug Functions"), Button]
+    private void Debug()
+    {
+        ServiceLocator.Instance.Get<IUniverseService>().DebugClass();
     }
 
     [Button]

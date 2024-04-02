@@ -121,7 +121,7 @@ public class Universe : MonoBehaviour, IUniverseService
         
         //Calculate spawns per ring and angles between spawns
         int fibonacci = UniverseHelper.GetFibonacci(_ringIndex);
-        float angle = angleStep * fibonacci;
+        float angle = (angleStep * fibonacci) % 360;
         int spawnPerRing = Random.Range(minSpawnPerRing, maxSpawnPerRing);
         float innerAngleStep = 360f / spawnPerRing;
 
@@ -160,6 +160,8 @@ public class Universe : MonoBehaviour, IUniverseService
     [Button]
     public void EatRing()
     {
+        if (_activeRings.Count <= 0)
+            return;
         int index = _activeRings[0];
         if (_rings.TryGetValue(index, out Ring ring))
         {
@@ -209,6 +211,14 @@ public class Universe : MonoBehaviour, IUniverseService
         for (int i = 0; i < rings; ++i)
         {
             SpawnRing();
+        }
+    }
+
+    public void DebugClass()
+    {
+        foreach(KeyValuePair<int, Ring> ringPair in _rings)
+        {
+            Debug.Log($"LOG | ID: {ringPair.Key} Ring: {ringPair.Value}");
         }
     }
 
