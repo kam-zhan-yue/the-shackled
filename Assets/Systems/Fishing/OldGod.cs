@@ -9,10 +9,12 @@ using Kuroneko.UtilityDelivery;
 using Sirenix.OdinInspector;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class OldGod : MonoBehaviour
 {
+    public UnityEvent OnAbsorb;
     [BoxGroup("Scriptable Objects"), SerializeField] private GameSettings gameSettings;
     [BoxGroup("Components"), SerializeField] private Casting casting;
     [BoxGroup("Components"), SerializeField] private ShootTowards shootTowards;
@@ -62,6 +64,7 @@ public class OldGod : MonoBehaviour
 
     private void Absorb(CelestialData data)
     {
+        OnAbsorb?.Invoke();
         _scaleFactor += data.food;
         Vector3 newScale = Vector3.one * _scaleFactor;
         transform.DOScale(newScale, 0.2f).SetEase(Ease.OutQuart);
