@@ -8,7 +8,7 @@ using UnityEngine;
 public class Ring : MonoBehaviour
 {
     private int _id;
-    private const float RING_FOOD = 2f;
+    private const float RING_FOOD = 1f;
     [NonSerialized, ShowInInspector, ReadOnly]
     private List<CelestialBody> _celestialBodies = new List<CelestialBody>();
 

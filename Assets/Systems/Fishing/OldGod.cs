@@ -13,7 +13,6 @@ using UnityEngine.InputSystem;
 
 public class OldGod : MonoBehaviour
 {
-    private const int SCALE_STEP = 5;
     [BoxGroup("Scriptable Objects"), SerializeField] private GameSettings gameSettings;
     [BoxGroup("Components"), SerializeField] private Casting casting;
     [BoxGroup("Components"), SerializeField] private ShootTowards shootTowards;
@@ -107,10 +106,10 @@ public class OldGod : MonoBehaviour
 
     private void FinishAbsorbing()
     {
-        if (_scaleFactor > SCALE_STEP * _threshold)
+        if (_scaleFactor > UniverseHelper.SCALE_STEP * _threshold)
         {
             ZoomOut();
-            _threshold = (int)_scaleFactor / SCALE_STEP + 1;
+            _threshold = (int)(_scaleFactor /  UniverseHelper.SCALE_STEP) + 1;
             firePoint.Scale(_scaleFactor);
         }
     }

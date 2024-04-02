@@ -51,7 +51,7 @@ public class OrbitalSystem
     public OrbitalSystem(CelestialBody centre, List<OrbitalSystem> orbitals, OrbitalData orbitalData, Vector2 orbitalPeriod)
     {
         _orbitalData = orbitalData;
-        _spawnPattern = SpawnPattern.Sequential;
+        _spawnPattern = SpawnPattern.Orbital;
         _centre = centre;
         _orbitals = orbitals;
         _orbitalRadius = _orbitalData.OrbitalRadius;

@@ -29,7 +29,7 @@ public class Universe : MonoBehaviour, IUniverseService
     [SerializeField] private float angleStep = 10f;
     [SerializeField] private int minSpawnPerRing = 1;
     [SerializeField] private int maxSpawnPerRing = 4;
-    private int _ringIndex = 3;
+    private int _ringIndex = 4;
     
     [NonSerialized, ShowInInspector, ReadOnly]
     private readonly List<Ring> _rings = new List<Ring>();
@@ -93,7 +93,7 @@ public class Universe : MonoBehaviour, IUniverseService
     [Button]
     public void SpawnRing()
     {
-        GameObject ringGameObject = new GameObject($"Ring {_ringIndex - 2}");
+        GameObject ringGameObject = new GameObject($"Ring {_ringIndex - 3}");
         Ring ring = ringGameObject.AddComponent<Ring>();
         _rings.Add(ring);
         

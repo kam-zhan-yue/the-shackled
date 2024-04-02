@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -487960530110528305}
   - component: {fileID: 5830734531014702092}
   - component: {fileID: 760205581410733272}
+  - component: {fileID: 2053662902145218372}
   m_Layer: 8
   m_Name: CelestialBody
   m_TagString: Untagged
@@ -184,3 +185,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animation_to_play: {fileID: 0}
+--- !u!114 &2053662902145218372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1560704518533714804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e67c3a8d4a5dc45f1aaddd0d395dce7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

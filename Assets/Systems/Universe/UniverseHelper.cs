@@ -2,9 +2,8 @@ using UnityEngine;
 
 public static class UniverseHelper
 {
-    public const float GRAVITATIONAL_CONSTANT = 0.0001f;
-    public const float PHYSICS_TIME_STEP = 0.01f;
-    public const float CAMERA_STEP = 7f;
+    public const float CAMERA_STEP = 6f;
+    public const float SCALE_STEP = 2.5f;
     public const float BLACK_HOLE_SPAWN_RATE = 0.1f;
     public const int MAX_MOONS = 5;
     public const int MAX_PLANETS = 3;
@@ -44,7 +43,7 @@ public static class UniverseHelper
 
     public static float GetScaleModifier(float distance)
     {
-        return distance * 0.2f;
+        return distance * 0.1f;
     }
 
     public static bool ClockwiseRotation()

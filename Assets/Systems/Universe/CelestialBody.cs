@@ -143,6 +143,7 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
     public virtual CelestialData Absorb()
     {
         onAbsorb?.Invoke(this);
+        ForceMove();
         transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.OutQuart).OnComplete(() =>
         {
             Destroy(gameObject);
@@ -153,7 +154,7 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
     public void ForceMove()
     {
         Vector3 position = ServiceLocator.Instance.Get<IUniverseService>().GetCentre().position;
-        transform.DOMove(position, 0.1f).SetEase(Ease.OutQuart);
+        transform.DOMove(position, 0.2f).SetEase(Ease.OutQuart);
     }
 
     private void OnDrawGizmosSelected()
