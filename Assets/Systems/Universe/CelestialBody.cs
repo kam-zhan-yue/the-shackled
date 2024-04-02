@@ -137,13 +137,11 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
         
         Vector2 rotation = UniverseHelper.ConvertAngleToRotation(_angle);
         Vector2 position = (Vector2)parent.transform.position + rotation * orbitalData.OrbitalRadius;
-        Debug.Log($"{name} Moving Position: {position} Angle: {_angle} Rotation: {rotation}");
         _rigidbody.MovePosition(position);
     }
 
     public virtual void Hook(Transform pole)
     {
-        Debug.Log($"{gameObject.name} is hooked to {pole.name} !");
         _lineRenderer.positionCount = 0;
         _state = State.Hooked;
         transform.parent = pole;

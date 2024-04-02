@@ -11,6 +11,7 @@ using UnityEngine.InputSystem;
 public class OldGod : MonoBehaviour, IGodService
 {
     public UnityEvent OnAbsorb;
+    public UnityEvent OnPunish;
     [BoxGroup("Scriptable Objects"), SerializeField] private GameSettings gameSettings;
     [BoxGroup("Components"), SerializeField] private Casting casting;
     [BoxGroup("Components"), SerializeField] private ShootTowards shootTowards;
@@ -20,6 +21,8 @@ public class OldGod : MonoBehaviour, IGodService
     private PlayerControls _playerControls;
     private float _scaleFactor = 1f;
     private int _threshold = 1;
+    private bool _absorbed = false;
+    private bool _canAbsorb = true;
 
     private enum State
     {
@@ -73,6 +76,7 @@ public class OldGod : MonoBehaviour, IGodService
     public void Absorb(CelestialData data)
     {
         OnAbsorb?.Invoke();
+        _absorbed = true;
         _scaleFactor += data.food;
         _scaleFactor = Mathf.Clamp(_scaleFactor, 0f, gameSettings.maxScale);
         Vector3 newScale = Vector3.one * _scaleFactor;
@@ -81,8 +85,16 @@ public class OldGod : MonoBehaviour, IGodService
 
     public void ResetScale()
     {
+        ResetAsync(this.GetCancellationTokenOnDestroy()).Forget();
+    }
+
+    private async UniTask ResetAsync(CancellationToken token)
+    {
+        _canAbsorb = false;
         _scaleFactor = gameSettings.endlessScale;
         transform.DOScale(_scaleFactor, 0.2f).SetEase(Ease.OutQuart);
+        await UniTask.WaitForSeconds(0.2f, cancellationToken: token);
+        _canAbsorb = true;
     }
 
     private void Shoot(InputAction.CallbackContext callbackContext)
@@ -109,6 +121,7 @@ public class OldGod : MonoBehaviour, IGodService
     
     private async UniTask Cast()
     {
+        _absorbed = false;
         CancellationToken token = this.GetCancellationTokenOnDestroy();
         _state = State.Casting;
         Vector3 targetPosition = _main.ScreenToWorldPoint(Input.mousePosition);
@@ -130,12 +143,27 @@ public class OldGod : MonoBehaviour, IGodService
 
     private void FinishAbsorbing()
     {
-        if (_scaleFactor > UniverseHelper.SCALE_STEP * _threshold)
+        if (!_absorbed)
+        {
+            Punish();
+        }
+        else if (_scaleFactor > UniverseHelper.SCALE_STEP * _threshold)
         {
             ZoomOut();
             _threshold = (int)(_scaleFactor /  UniverseHelper.SCALE_STEP) + 1;
             firePoint.Scale(_scaleFactor);
         }
+    }
+
+    private void Punish()
+    {
+        OnPunish?.Invoke();
+        _scaleFactor -= 0.2f;
+        
+        //Clamp it at 0.5f to prevent going below 0
+        if (_scaleFactor <= 0.5f)
+            _scaleFactor = 0.5f;
+        transform.DOScale(_scaleFactor, 0.2f).SetEase(Ease.OutQuart);
     }
 
     private void OnDestroy()
