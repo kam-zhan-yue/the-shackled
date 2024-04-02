@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 760205581410733272, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
+      propertyPath: animation_to_play
+      value: 
+      objectReference: {fileID: 7400000, guid: c95cf4e1c34655847bca957d8cea9c8f, type: 2}
     - target: {fileID: 1560704518533714804, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
       propertyPath: m_Name
       value: Red Planet
@@ -86,3 +90,4 @@ MonoBehaviour:
     startAngle: 0
     orbitalPeriod: 1
     orbitalRadius: 1
+    bodyScale: 0
