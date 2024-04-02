@@ -1,3 +1,4 @@
+using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
@@ -7,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
-public class OldGod : MonoBehaviour
+public class OldGod : MonoBehaviour, IGodService
 {
     public UnityEvent OnAbsorb;
     [BoxGroup("Scriptable Objects"), SerializeField] private GameSettings gameSettings;
@@ -27,6 +28,11 @@ public class OldGod : MonoBehaviour
         Shooting = 2
     }
 
+    private void Awake()
+    {
+        ServiceLocator.Instance.Register<IGodService>(this);
+    }
+
     private void Start()
     {
         StartAsync(this.GetCancellationTokenOnDestroy()).Forget();
@@ -37,9 +43,9 @@ public class OldGod : MonoBehaviour
         _main = Camera.main;
         if (gameSettings.showIntroAnimation)
         {
-            SetCameraSize(100f);
+            SetCameraSize(gameSettings.zoomOut);
             await UniTask.WaitForSeconds(1f, cancellationToken:token);
-            DOTween.To(SetCameraSize, 100f, UniverseHelper.START_CAMERA, 1.2f).SetEase(Ease.InOutQuint).OnComplete(Init);
+            DOTween.To(SetCameraSize, gameSettings.zoomOut, UniverseHelper.START_CAMERA, 1.2f).SetEase(Ease.InOutQuint).OnComplete(Init);
         }
         else
         {
@@ -64,13 +70,19 @@ public class OldGod : MonoBehaviour
         }
     }
 
-    private void Absorb(CelestialData data)
+    public void Absorb(CelestialData data)
     {
         OnAbsorb?.Invoke();
         _scaleFactor += data.food;
+        _scaleFactor = Mathf.Clamp(_scaleFactor, 0f, gameSettings.maxScale);
         Vector3 newScale = Vector3.one * _scaleFactor;
         transform.DOScale(newScale, 0.2f).SetEase(Ease.OutQuart);
+    }
 
+    public void ResetScale()
+    {
+        _scaleFactor = gameSettings.endlessScale;
+        transform.DOScale(_scaleFactor, 0.2f).SetEase(Ease.OutQuart);
     }
 
     private void Shoot(InputAction.CallbackContext callbackContext)
@@ -86,7 +98,8 @@ public class OldGod : MonoBehaviour
     {
         float originalSize = _main.orthographicSize;
         float newSize = UniverseHelper.START_CAMERA + _scaleFactor * UniverseHelper.CAMERA_STEP;
-        DOTween.To(SetCameraSize, originalSize, newSize, 0.5f).SetEase(Ease.OutQuart);
+        float clampedSize = Mathf.Clamp(newSize, 0f, gameSettings.maxZoom);
+        DOTween.To(SetCameraSize, originalSize, clampedSize, 0.5f).SetEase(Ease.OutQuart);
     }
 
     private void SetCameraSize(float size)

@@ -49,9 +49,9 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
         orbitalData.SetClockwise(clockwise);
     }
 
-    public void SetScale(Vector3 scale)
+    public void SetScale(float scaleFactor)
     {
-        transform.localScale = scale / sizeMultiplier;
+        transform.localScale = Vector3.one * scaleFactor / sizeMultiplier;
     }
 
     public void SetStartingAngle(float angle)
@@ -162,7 +162,6 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
     public virtual CelestialData Absorb()
     {
         _circleCollider.enabled = false;
-        Debug.Log($"LOG | {name} is absorbed");
         onAbsorb?.Invoke(this);
         ForceMove();
         transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.OutQuart).OnComplete(() =>
@@ -191,6 +190,14 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
             Vector3 finalPosition = pointPosition + offset;
             _lineRenderer.SetPosition(i, finalPosition);
         }
+    }
+
+    public async UniTask Lerp(float orbitalRadius, float scaleFactor, float duration)
+    {
+        Debug.Log($"LOG | Lerping {name} to {orbitalRadius} in {duration}");
+        DOTween.To(SetOrbitalRadius, orbitalData.OrbitalRadius, orbitalRadius, duration).SetEase(Ease.OutExpo);
+        DOTween.To(SetScale, transform.localScale.magnitude, scaleFactor, duration).SetEase(Ease.OutExpo);
+        await UniTask.WaitForSeconds(duration, cancellationToken: this.GetCancellationTokenOnDestroy());
     }
 
     private async UniTask DestroyAsync(CancellationToken token)

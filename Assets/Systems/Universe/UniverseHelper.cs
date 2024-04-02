@@ -11,7 +11,8 @@ public static class UniverseHelper
     private const float SCALE_MODIFIER = 0.15f;
     private const float TENTACLE_SPEED_MODIFIER = 0.8f;
     public const float FIBONACCI_SCALE = 0.5f;
-    private const int RING_THRESHOLD = 10;
+    public const int RING_THRESHOLD = 10;
+    public const int RING_WAVE = 2;
 
     public static float GetTentacleSpeed(float originalSpeed, float scaleFactor)
     {
@@ -68,7 +69,7 @@ public static class UniverseHelper
         }
         else
         {
-            return GetFibonacci(RING_THRESHOLD - 1) + (ring - RING_THRESHOLD) * 20f;
+            return GetFibonacci(RING_THRESHOLD - 1) + 20f;
         }
     }
 

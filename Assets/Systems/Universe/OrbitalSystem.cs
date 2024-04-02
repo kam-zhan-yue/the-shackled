@@ -62,7 +62,7 @@ public class OrbitalSystem
     private void InitCentre()
     {
         _centre.SetClockwise(_orbitalData.ClockwiseOrbit);
-        _centre.SetScale(Vector3.one * _orbitalData.Scale);
+        _centre.SetScale(_orbitalData.Scale);
         _centre.SetOrbitalRadius(_orbitalRadius);
         _centre.SetStartingAngle( _orbitalData.StartAngle);
         _centre.SetOrbitalPeriod(_orbitalData.OrbitalPeriod);
@@ -93,8 +93,7 @@ public class OrbitalSystem
         float orbitalPeriod = UniverseHelper.RandomValue(_outerOrbitalPeriod);
         for (int i = 0; i < _orbitals.Count; ++i)
         {
-            float randomSize = Random.Range(minSize, maxSize);
-            Vector3 randomScale = Vector3.one * randomSize;
+            float randomScale = Random.Range(minSize, maxSize);
             _orbitals[i].Centre.SetClockwise(clockwise);
             _orbitals[i].Centre.SetScale(randomScale);
             _orbitals[i].Centre.SetOrbitalRadius(separation); 
@@ -107,13 +106,11 @@ public class OrbitalSystem
     private float ArrangeSequential(float minSize, float maxSize, float minSeparation, float maxSeparation)
     {
         float separation = 0f;
-        Debug.Log($"Arrange Sequential for {_centre.name}");
         for (int i = 0; i < _orbitals.Count; ++i)
         {
-            float randomSize = Random.Range(minSize, maxSize);
-            Vector3 randomScale = Vector3.one * randomSize;
+            float randomScale = Random.Range(minSize, maxSize);
             float randomSeparation = Random.Range(minSeparation, maxSeparation);
-            separation += randomSize + randomSeparation + _orbitals[i]._orbitalRadius;
+            separation += randomScale + randomSeparation + _orbitals[i]._orbitalRadius;
             bool clockwise = UniverseHelper.ClockwiseRotation();
             float orbitalPeriod = UniverseHelper.RandomValue(_outerOrbitalPeriod);
             _orbitals[i].Centre.SetClockwise(clockwise);

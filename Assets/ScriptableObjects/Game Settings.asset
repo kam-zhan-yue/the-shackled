@@ -15,4 +15,5 @@ MonoBehaviour:
   debug: 0
   showIntroCinematic: 0
   showIntroAnimation: 0
-  initialRings: 10
+  initialRings: 7
+  zoomOut: 100

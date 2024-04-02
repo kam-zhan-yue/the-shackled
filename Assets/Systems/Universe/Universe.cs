@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Kuroneko.UtilityDelivery;
 using Sirenix.OdinInspector;
 using TMPro.EditorUtilities;
@@ -30,9 +31,11 @@ public class Universe : MonoBehaviour, IUniverseService
     [SerializeField] private int minSpawnPerRing = 1;
     [SerializeField] private int maxSpawnPerRing = 4;
     private int _ringIndex = 4;
-    
+
     [NonSerialized, ShowInInspector, ReadOnly]
-    private readonly List<Ring> _rings = new List<Ring>();
+    private readonly List<int> _activeRings = new List<int>();
+
+    private readonly Dictionary<int, Ring> _rings = new();
 
     private SimulationState _simulationState = SimulationState.Paused;
 
@@ -68,8 +71,21 @@ public class Universe : MonoBehaviour, IUniverseService
 
     public void ReportRingEaten(int id)
     {
-        Debug.Log($"Ring {id} Completely Eaten!");
-        SpawnRing();
+        Debug.Log($"LOG | Ring {id} Completely Eaten!");
+        _activeRings.Remove(id);
+        if (_activeRings.Count <= 0)
+        {
+            SpawnRingWave();
+        }
+    }
+
+    private void SpawnRingWave()
+    {
+        ServiceLocator.Instance.Get<IGodService>().ResetScale();
+        for (int i = 0; i < UniverseHelper.RING_WAVE; ++i)
+        {
+            SpawnRing();
+        }
     }
 
     private void FixedUpdate()
@@ -86,9 +102,13 @@ public class Universe : MonoBehaviour, IUniverseService
 
     private void SimulateRings()
     {
-        for (int i = 0; i < _rings.Count; ++i)
+        for (int i = 0; i < _activeRings.Count; ++i)
         {
-            _rings[i].Simulate();
+            int activeRing = _activeRings[i];
+            if (_rings.TryGetValue(activeRing, out Ring ring))
+            {
+                ring.Simulate();
+            }
         }
     }
 
@@ -97,7 +117,8 @@ public class Universe : MonoBehaviour, IUniverseService
     {
         GameObject ringGameObject = new GameObject($"Ring {_ringIndex - 3}");
         Ring ring = ringGameObject.AddComponent<Ring>();
-        _rings.Add(ring);
+        _rings.Add(_ringIndex, ring);
+        _activeRings.Add(_ringIndex);
         
         //Calculate spawns per ring and angles between spawns
         int fibonacci = UniverseHelper.GetFibonacci(_ringIndex);
@@ -133,7 +154,44 @@ public class Universe : MonoBehaviour, IUniverseService
             }
         }
         ring.Init(_ringIndex);
+        LerpRing(ring);
         _ringIndex++;
+    }
+
+    [Button]
+    public void EatRing()
+    {
+        int index = _activeRings[0];
+        Debug.Log($"LOG | eating {index}");
+        if (_rings.TryGetValue(index, out Ring ring))
+        {
+            ring.Absorb();
+        }
+    }
+
+    private void AbsorbRing()
+    {
+        
+    }
+
+    private void LerpRing(Ring ring)
+    {
+        if (ring.ID <= UniverseHelper.RING_THRESHOLD)
+            return;
+        int pattern = GetPattern(ring.Number);
+        Debug.Log($"LOG | Lerping Ring {ring.Number} to {pattern}");
+        float orbitalRadius = UniverseHelper.GetRingOrbitalRadius(pattern);
+        float scaleFactor = UniverseHelper.GetRingScaleFactor(pattern);
+        
+        ring.Lerp(orbitalRadius, scaleFactor, 0.2f);
+    }
+
+    private int GetPattern(int ring)
+    {
+        if (ring < UniverseHelper.RING_THRESHOLD)
+            return ring;
+
+        return (ring - 1) % 2 == 0 ? 9 : 10;
     }
 
     private SpawnType GetSpawnType()
@@ -166,8 +224,7 @@ public class Universe : MonoBehaviour, IUniverseService
 
             float orbitalRadius = UniverseHelper.GetRingOrbitalRadius(i);
             float scaleFactor = UniverseHelper.GetRingScaleFactor(i);
-            Debug.Log($"Ring {i} Orbital Radius {orbitalRadius}");
-            
+
             for (int j = 0; j < spawnPerRing; ++j)
             {
                 float spawnAngle = angle + j * innerAngleStep;
