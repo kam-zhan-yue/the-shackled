@@ -43,3 +43,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Stars
+    uniqueID: 3957277587
+    locked: 0
+  - name: Planets
+    uniqueID: 160661483
+    locked: 0
+  - name: Tentacle
+    uniqueID: 2285506531
+    locked: 0
