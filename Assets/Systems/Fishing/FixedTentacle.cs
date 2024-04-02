@@ -51,8 +51,9 @@ public class FixedTentacle : MonoBehaviour
                 //only loop until one before the end
                 for (int i = 1; i<segment_positions.Length-1; i++)
                 {
-                    Vector3 targetPos = segment_positions[i-1] + (segment_positions[i]-segment_positions[i-1]).normalized*target_distance;
-                    segment_positions[i] = Vector3.SmoothDamp(segment_positions[i], targetPos,ref segment_velocity[i],smooth_speed);
+                    segment_positions[i] = Vector3.SmoothDamp(segment_positions[i], segment_positions[i-1], ref segment_velocity[i], smooth_speed);
+                    //Vector3 targetPos = segment_positions[i-1] + (segment_positions[i]-segment_positions[i-1]).normalized*target_distance;
+                    //segment_positions[i] = Vector3.SmoothDamp(segment_positions[i], targetPos,ref segment_velocity[i],smooth_speed);
                     //segment_positions[i] = Vector3.SmoothDamp(segment_positions[i], segment_positions[i-1]+target_direction.right*target_distance, ref segment_velocity[i], smooth_speed);
                 }
                 //set the final point to be stuck at the origin
@@ -65,9 +66,12 @@ public class FixedTentacle : MonoBehaviour
                 break;
 
             case Tentacle_State.Retracting:
+                //wiggle_direction.localRotation = Quaternion.Euler(0,0,Mathf.Sin(Time.time*wiggle_speed)*wiggle_magnitude);
+        
+
                 segment_positions[length-1] = tentacle_movement_data.Origin;
-                //move each point to be where the next one is
-                //only loop until one before the end
+
+                //Follows itself back to the origin
                 for (int i = length-2; i>=0; i--)
                 {
                     segment_positions[i] = Vector3.SmoothDamp(segment_positions[i], segment_positions[i+1], ref segment_velocity[i], smooth_speed);
@@ -96,3 +100,4 @@ public class FixedTentacle : MonoBehaviour
         line_renderer.SetPositions(segment_positions);
     }
 }
+
