@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 760205581410733272, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
+      propertyPath: animation_to_play
+      value: 
+      objectReference: {fileID: 7400000, guid: 87920462297c9f248a652ac9c791f451, type: 2}
     - target: {fileID: 1560704518533714804, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
       propertyPath: m_Name
       value: Blue Planet
@@ -16,6 +20,10 @@ PrefabInstance:
       propertyPath: m_Constraints
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 5830734531014702092, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 943aa769b4f17654083cc20fcf36b5b3, type: 2}
     - target: {fileID: 7576068518995142766, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1
