@@ -62,7 +62,6 @@ public class FirePoint : MonoBehaviour
 
     private void OnHook(IHookable hookable)
     {
-        Debug.Log($"Hooked {hookable}");
         _reachedDestination = true;
     }
     
@@ -215,7 +214,6 @@ public class FirePoint : MonoBehaviour
         int positions = line_renderer.positionCount;
         float positionOnCurve = (float)index / positions;
         float width = widthCurve.Evaluate(positionOnCurve);
-        Debug.Log($"Width is: {width} at {index}");
         point_list[index].Initialize_Point(direction, speed, width, destination);
         point_list[index].gameObject.SetActive(true);
     }

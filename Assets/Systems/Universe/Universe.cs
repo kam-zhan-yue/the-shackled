@@ -162,11 +162,12 @@ public class Universe : MonoBehaviour, IUniverseService
     public void EatRing()
     {
         int index = _activeRings[0];
-        Debug.Log($"LOG | eating {index}");
         if (_rings.TryGetValue(index, out Ring ring))
         {
             ring.Absorb();
+            Debug.Log($"LOG | Eating Ring {ring.Number}");
         }
+        ServiceLocator.Instance.Get<IGodService>().ZoomOut();
     }
 
     private void AbsorbRing()
@@ -179,7 +180,6 @@ public class Universe : MonoBehaviour, IUniverseService
         if (ring.ID <= UniverseHelper.RING_THRESHOLD)
             return;
         int pattern = GetPattern(ring.Number);
-        Debug.Log($"LOG | Lerping Ring {ring.Number} to {pattern}");
         float orbitalRadius = UniverseHelper.GetRingOrbitalRadius(pattern);
         float scaleFactor = UniverseHelper.GetRingScaleFactor(pattern);
         

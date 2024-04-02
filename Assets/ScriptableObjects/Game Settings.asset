@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Game Settings
   m_EditorClassIdentifier: 
   debug: 0
-  showIntroCinematic: 0
+  showIntroCinematic: 1
   showIntroAnimation: 0
   initialRings: 7
   zoomOut: 100
+  maxZoom: 100
+  maxScale: 15
+  endlessScale: 10
