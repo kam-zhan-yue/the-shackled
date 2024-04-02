@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Game Settings
   m_EditorClassIdentifier: 
   debug: 0
-  showIntroCinematic: 1
-  showIntroAnimation: 1
+  showIntroCinematic: 0
+  showIntroAnimation: 0
   initialRings: 10

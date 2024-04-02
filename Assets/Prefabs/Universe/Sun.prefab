@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c1813725f2784561bba3b6e66f8c13c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sizeMultiplier: 3
+  sizeMultiplier: 1.5
   orbitalData:
     clockwiseOrbit: 0
     startAngle: 0

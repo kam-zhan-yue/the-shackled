@@ -11,15 +11,19 @@ PrefabInstance:
     - target: {fileID: 760205581410733272, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
       propertyPath: animation_to_play
       value: 
-      objectReference: {fileID: 7400000, guid: c95cf4e1c34655847bca957d8cea9c8f, type: 2}
+      objectReference: {fileID: 7400000, guid: 0b1659c086fb6564e90408da7833ec51, type: 2}
     - target: {fileID: 1560704518533714804, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
       propertyPath: m_Name
-      value: Red Planet
+      value: Ring Planet
       objectReference: {fileID: 0}
     - target: {fileID: 3709255912860858690, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
       propertyPath: m_Constraints
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 5830734531014702092, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 1702144509, guid: 9f9c77f52bd5439439d78dc28d14232d, type: 3}
     - target: {fileID: 7576068518995142766, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1
@@ -89,6 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8952dfa8b1a8e4999904bd2f4ad4b017, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sizeMultiplier: 1
   orbitalData:
     clockwiseOrbit: 0
     startAngle: 0

@@ -11,39 +11,19 @@ PrefabInstance:
     - target: {fileID: 760205581410733272, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
       propertyPath: animation_to_play
       value: 
-      objectReference: {fileID: 7400000, guid: 6f1caf4e845895247a65c54c006da76b, type: 2}
+      objectReference: {fileID: 7400000, guid: c95cf4e1c34655847bca957d8cea9c8f, type: 2}
     - target: {fileID: 1560704518533714804, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
       propertyPath: m_Name
-      value: Purple Planet
+      value: Red Planet
       objectReference: {fileID: 0}
     - target: {fileID: 3709255912860858690, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
       propertyPath: m_Constraints
       value: 4
       objectReference: {fileID: 0}
-    - target: {fileID: 4345989410310262461, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
-      propertyPath: InitialModule.startColor.maxColor.b
-      value: 0.75319386
-      objectReference: {fileID: 0}
-    - target: {fileID: 4345989410310262461, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
-      propertyPath: InitialModule.startColor.maxColor.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4345989410310262461, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
-      propertyPath: ColorModule.gradient.maxGradient.key0.b
-      value: 0.93989515
-      objectReference: {fileID: 0}
-    - target: {fileID: 4345989410310262461, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
-      propertyPath: ColorModule.gradient.maxGradient.key0.g
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5830734531014702092, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 757368856, guid: 9f9c77f52bd5439439d78dc28d14232d, type: 3}
-    - target: {fileID: 5830734531014702092, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: a112da42d16083a4a938dc18624b6377, type: 2}
+      objectReference: {fileID: -826505760, guid: 9f9c77f52bd5439439d78dc28d14232d, type: 3}
     - target: {fileID: 7576068518995142766, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1
@@ -87,7 +67,7 @@ PrefabInstance:
     - target: {fileID: 9172874309295646154, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 43ae7e8eb59cc4eb8a899ded2b281868, type: 2}
+      objectReference: {fileID: 2100000, guid: 3fc5c6af241b443a29cec746302b75fe, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

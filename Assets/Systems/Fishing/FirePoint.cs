@@ -62,6 +62,7 @@ public class FirePoint : MonoBehaviour
 
     private void OnHook(IHookable hookable)
     {
+        Debug.Log($"Hooked {hookable}");
         _reachedDestination = true;
     }
     

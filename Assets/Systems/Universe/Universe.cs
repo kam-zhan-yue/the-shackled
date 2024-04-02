@@ -48,6 +48,7 @@ public class Universe : MonoBehaviour, IUniverseService
         {
             SpawnRing();
         }
+        ServiceLocator.Instance.Get<IUniverseService>().StartSimulation();
     }
 
     public Transform GetCentre()
@@ -98,31 +99,33 @@ public class Universe : MonoBehaviour, IUniverseService
         Ring ring = ringGameObject.AddComponent<Ring>();
         _rings.Add(ring);
         
+        //Calculate spawns per ring and angles between spawns
         int fibonacci = UniverseHelper.GetFibonacci(_ringIndex);
         float angle = angleStep * fibonacci;
-        float scale = UniverseHelper.GetScaleModifier(fibonacci);
         int spawnPerRing = Random.Range(minSpawnPerRing, maxSpawnPerRing);
         float innerAngleStep = 360f / spawnPerRing;
 
         //Determine if the ring is clockwise
         bool clockwise = UniverseHelper.ClockwiseRotation();
-        Debug.Log($"Is Clockwise: {clockwise}");
         //Set the orbital period for all elements in the ring
         float period = UniverseHelper.RandomValue(planetDatabase.planetMinMaxData.orbitalPeriod);
-        for (int j = 0; j < spawnPerRing; ++j)
+        float orbitalRadius = UniverseHelper.GetRingOrbitalRadius(_ringIndex);
+        float scaleFactor = UniverseHelper.GetRingScaleFactor(_ringIndex);
+        
+        for (int i = 0; i < spawnPerRing; ++i)
         {
-            float spawnAngle = angle + j * innerAngleStep;
+            float spawnAngle = angle + i * innerAngleStep;
             SpawnType spawnType = GetSpawnType();
             switch (spawnType)
             {
                 case SpawnType.Planet:
-                    OrbitalData planetData = new OrbitalData(fibonacci, scale, spawnAngle, period, clockwise);
+                    OrbitalData planetData = new OrbitalData(orbitalRadius, scaleFactor, spawnAngle, period, clockwise);
                     OrbitalSystem planetSystem = planetDatabase.GeneratePlanet(planetData);
                     planetSystem.Centre.transform.parent = ringGameObject.transform;
                     ring.Add(planetSystem);
                     break;
                 case SpawnType.SolarSystem:
-                    OrbitalData solarSystemData = new OrbitalData(fibonacci, scale, spawnAngle, period, clockwise);
+                    OrbitalData solarSystemData = new OrbitalData(orbitalRadius, scaleFactor, spawnAngle, period, clockwise);
                     OrbitalSystem solarSystem = planetDatabase.GenerateSolarSystem(solarSystemData);
                     solarSystem.Centre.transform.parent = ringGameObject.transform;
                     ring.Add(solarSystem);
@@ -160,13 +163,18 @@ public class Universe : MonoBehaviour, IUniverseService
             float angle = angleStep * fibonacci;
             int spawnPerRing = maxSpawnPerRing;
             float innerAngleStep = 360f / spawnPerRing;
+
+            float orbitalRadius = UniverseHelper.GetRingOrbitalRadius(i);
+            float scaleFactor = UniverseHelper.GetRingScaleFactor(i);
+            Debug.Log($"Ring {i} Orbital Radius {orbitalRadius}");
+            
             for (int j = 0; j < spawnPerRing; ++j)
             {
                 float spawnAngle = angle + j * innerAngleStep;
                 Vector2 rotation = UniverseHelper.ConvertAngleToRotation(spawnAngle);
-                Gizmos.DrawSphere(rotation * fibonacci, UniverseHelper.GetScaleModifier(fibonacci));
+                Gizmos.DrawSphere(rotation * orbitalRadius, UniverseHelper.GetScaleModifier(scaleFactor));
             }
-            Gizmos.DrawWireSphere(transform.position, fibonacci);
+            Gizmos.DrawWireSphere(transform.position, orbitalRadius);
         }
     }
 }

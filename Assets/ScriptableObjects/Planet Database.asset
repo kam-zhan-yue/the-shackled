@@ -26,12 +26,15 @@ MonoBehaviour:
   - id: blue
     prefab: {fileID: 5513879070048414371, guid: 1326bbb2960bb4f06afe4f656be1251c, type: 3}
     moons: 1
-  - id: red
+  - id: stone
     prefab: {fileID: 5513879070048414371, guid: 4d69863dcafef4898aa7459a6e492029, type: 3}
-    moons: 1
+    moons: 0
   - id: purple
     prefab: {fileID: 5513879070048414371, guid: 40defb003c9f344f8b358ccc8205adde, type: 3}
     moons: 1
+  - id: ring
+    prefab: {fileID: 5513879070048414371, guid: 47cdc940546d24b30b34a71397d5f999, type: 3}
+    moons: 0
   moonPrefab: {fileID: 2796210769183983261, guid: f89b8158d97f540e4b74439523979aeb, type: 3}
   sunPrefab: {fileID: 66216716439003811, guid: a60697afe1c2948e595dc32b30e0522f, type: 3}
   blackHolePrefab: {fileID: 7427356434849572052, guid: 72f7f8a70a40b4a0ba5cdb31933b87c6, type: 3}

@@ -49,7 +49,7 @@ public class Planet : CelestialBody
         Debug.Log($"Force Move Moons {_moons.Count}");
         for (int i = _moons.Count - 1; i >= 0; --i)
         {
-            _moons[i].ForceMove();
+            _moons[i].Absorb();
         }
 
         return data;
