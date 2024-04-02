@@ -14,6 +14,13 @@ public class Universe : MonoBehaviour, IUniverseService
         Planet = 0,
         SolarSystem = 1,
     }
+
+    private enum SimulationState
+    {
+        Paused = 0,
+        Running = 1
+    }
+    
     [BoxGroup("Scriptable Objects"), SerializeField] private PlanetDatabase planetDatabase;
     [BoxGroup("Scriptable Objects"), SerializeField] private GameSettings gameSettings;
     [NonSerialized, ShowInInspector, ReadOnly] private List<CelestialBody> _bodies = new();
@@ -22,8 +29,12 @@ public class Universe : MonoBehaviour, IUniverseService
     [SerializeField] private float angleStep = 10f;
     [SerializeField] private int minSpawnPerRing = 1;
     [SerializeField] private int maxSpawnPerRing = 4;
-    private int _ring = 3;
-    private readonly Dictionary<int, List<OrbitalSystem>> _ringDictionary = new();
+    private int _ringIndex = 3;
+    
+    [NonSerialized, ShowInInspector, ReadOnly]
+    private readonly List<Ring> _rings = new List<Ring>();
+
+    private SimulationState _simulationState = SimulationState.Paused;
 
     private void Awake()
     {
@@ -44,11 +55,49 @@ public class Universe : MonoBehaviour, IUniverseService
         return _centre.transform;
     }
 
+    public void StartSimulation()
+    {
+        _simulationState = SimulationState.Running;
+    }
+
+    public void PauseSimulation()
+    {
+        _simulationState = SimulationState.Paused;
+    }
+
+    public void ReportRingEaten(int id)
+    {
+        Debug.Log($"Ring {id} Completely Eaten!");
+    }
+
+    private void FixedUpdate()
+    {
+        switch (_simulationState)
+        {
+            case SimulationState.Paused:
+                break;
+            case SimulationState.Running:
+                SimulateRings();
+                break;
+        }
+    }
+
+    private void SimulateRings()
+    {
+        for (int i = 0; i < _rings.Count; ++i)
+        {
+            _rings[i].Simulate();
+        }
+    }
+
     [Button]
     public void SpawnRing()
     {
-        GameObject ring = new GameObject($"Ring {_ring}");
-        int fibonacci = UniverseHelper.GetFibonacci(_ring);
+        GameObject ringGameObject = new GameObject($"Ring {_ringIndex - 2}");
+        Ring ring = ringGameObject.AddComponent<Ring>();
+        _rings.Add(ring);
+        
+        int fibonacci = UniverseHelper.GetFibonacci(_ringIndex);
         float angle = angleStep * fibonacci;
         float scale = UniverseHelper.GetScaleModifier(fibonacci);
         int spawnPerRing = Random.Range(minSpawnPerRing, maxSpawnPerRing);
@@ -58,8 +107,6 @@ public class Universe : MonoBehaviour, IUniverseService
         bool clockwise = UniverseHelper.ClockwiseRotation();
         //Set the orbital period for all elements in the ring
         float period = UniverseHelper.RandomValue(planetDatabase.planetMinMaxData.orbitalPeriod);
-        
-        List<OrbitalSystem> systems = new();
         for (int j = 0; j < spawnPerRing; ++j)
         {
             float spawnAngle = angle + j * innerAngleStep;
@@ -69,25 +116,24 @@ public class Universe : MonoBehaviour, IUniverseService
                 case SpawnType.Planet:
                     OrbitalData planetData = new OrbitalData(fibonacci, scale, spawnAngle, period, clockwise);
                     OrbitalSystem planetSystem = planetDatabase.GeneratePlanet(planetData);
-                    planetSystem.Centre.transform.parent = ring.transform;
-                    systems.Add(planetSystem);
+                    planetSystem.Centre.transform.parent = ringGameObject.transform;
+                    ring.Add(planetSystem);
                     break;
                 case SpawnType.SolarSystem:
                     OrbitalData solarSystemData = new OrbitalData(fibonacci, scale, spawnAngle, period, clockwise);
                     OrbitalSystem solarSystem = planetDatabase.GenerateSolarSystem(solarSystemData);
-                    solarSystem.Centre.transform.parent = ring.transform;
-                    systems.Add(solarSystem);
+                    solarSystem.Centre.transform.parent = ringGameObject.transform;
+                    ring.Add(solarSystem);
                     break;
             }
         }
-
-        _ringDictionary.Add(_ring, systems);
-        _ring++;
+        ring.Init(_ringIndex);
+        _ringIndex++;
     }
 
     private SpawnType GetSpawnType()
     {
-        if (_ring < 5)
+        if (_ringIndex < 5)
         {
             return SpawnType.Planet;
         }
@@ -106,7 +152,7 @@ public class Universe : MonoBehaviour, IUniverseService
 
     private void OnDrawGizmosSelected()
     {
-        for (int i = _ring; i < 100; ++i)
+        for (int i = _ringIndex; i < 100; ++i)
         {
             int fibonacci = UniverseHelper.GetFibonacci(i);
             float angle = angleStep * fibonacci;

@@ -1,9 +1,14 @@
 public class CelestialData
 {
-    public float scaleFactor = 0.5f;
+    public float food;
+
+    public CelestialData(float food)
+    {
+        this.food = food;
+    }
 
     public void Add(CelestialData data)
     {
-        scaleFactor += data.scaleFactor;
+        food += data.food;
     }
 }

@@ -5,6 +5,7 @@ using System.Threading;
 using System.Xml.Schema;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Kuroneko.UtilityDelivery;
 using Sirenix.OdinInspector;
 using UnityAtoms.BaseAtoms;
 using UnityEngine;
@@ -20,6 +21,7 @@ public class OldGod : MonoBehaviour
     private Camera _main;
     private PlayerControls _playerControls;
     private float _scaleFactor = 1f;
+    private int _threshold = 1;
 
     private enum State
     {
@@ -33,7 +35,7 @@ public class OldGod : MonoBehaviour
         _main = Camera.main;
         if (gameSettings.showIntroAnimation)
         {
-            DOTween.To(SetCameraSize, 100f, 5f, 1.2f).SetEase(Ease.InOutQuint).OnComplete(Init);
+            DOTween.To(SetCameraSize, 100f, 10f, 1.2f).SetEase(Ease.InOutQuint).OnComplete(Init);
         }
         else
         {
@@ -46,6 +48,7 @@ public class OldGod : MonoBehaviour
         _playerControls = new PlayerControls();
         _playerControls.Game.Shoot.performed += Shoot;
         _playerControls.Enable();
+        ServiceLocator.Instance.Get<IUniverseService>().StartSimulation();
     }
 
     private void OnTriggerEnter2D(Collider2D col)
@@ -59,13 +62,14 @@ public class OldGod : MonoBehaviour
 
     private void Absorb(CelestialData data)
     {
-        _scaleFactor += data.scaleFactor;
+        _scaleFactor += data.food;
         Vector3 newScale = Vector3.one * _scaleFactor;
         transform.DOScale(newScale, 0.2f).SetEase(Ease.OutQuart);
 
-        if (_scaleFactor % SCALE_STEP == 0)
+        if (_scaleFactor > SCALE_STEP * _threshold)
         {
             ZoomOut();
+            _threshold++;
         }
     }
 

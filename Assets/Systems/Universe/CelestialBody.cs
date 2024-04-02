@@ -14,7 +14,9 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
     private Rigidbody2D _rigidbody;
 
     private State _state = State.Orbiting;
+    private CelestialData _data = new CelestialData(0.5f);
     public float Radius => transform.localScale.magnitude;
+    public Action<CelestialBody> onAbsorb;
 
     private enum State
     {
@@ -82,6 +84,11 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
 
     private void FixedUpdate()
     {
+        // Simulate();
+    }
+
+    public void Simulate()
+    {
         switch (_state)
         {
             case State.Orbiting:
@@ -121,19 +128,25 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
         
     }
 
+    public void SetData(CelestialData data)
+    {
+        _data = data;
+    }
+
     public virtual CelestialData Absorb()
     {
+        onAbsorb?.Invoke(this);
         transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.OutQuart).OnComplete(() =>
         {
             Destroy(gameObject);
         });
-        return new CelestialData();
+        return _data;
     }
 
     public void ForceMove()
     {
         Vector3 position = ServiceLocator.Instance.Get<IUniverseService>().GetCentre().position;
-        transform.DOMove(position, 0.2f).SetEase(Ease.OutQuart);
+        transform.DOMove(position, 0.1f).SetEase(Ease.OutQuart);
     }
 
     private void OnDrawGizmosSelected()

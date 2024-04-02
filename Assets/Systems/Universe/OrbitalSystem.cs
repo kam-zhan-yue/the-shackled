@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -132,5 +131,16 @@ public class OrbitalSystem
     {
         _orbitals.Add(system);
         _orbitalRadius += system._orbitalRadius;
+    }
+
+    public List<CelestialBody> GetBodies()
+    {
+        List<CelestialBody> bodies = new();
+        bodies.Add(_centre);
+        for (int i = 0; i < _orbitals.Count; ++i)
+        {
+            bodies.AddRange(_orbitals[i].GetBodies());
+        }
+        return bodies;
     }
 }
