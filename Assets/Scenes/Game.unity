@@ -568,7 +568,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -1041,6 +1041,34 @@ PrefabInstance:
     - target: {fileID: 7947110077162017566, guid: 6477cadf7815748839d9962c08951b8e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8662379440797033939, guid: 6477cadf7815748839d9962c08951b8e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b5a1af0da501d534a8a69bf6c2a91aa8, type: 2}
+    - target: {fileID: 8662379440797033939, guid: 6477cadf7815748839d9962c08951b8e, type: 3}
+      propertyPath: m_Parameters.colorGradient.atime1
+      value: 35659
+      objectReference: {fileID: 0}
+    - target: {fileID: 8662379440797033939, guid: 6477cadf7815748839d9962c08951b8e, type: 3}
+      propertyPath: m_Parameters.colorGradient.atime2
+      value: 65535
+      objectReference: {fileID: 0}
+    - target: {fileID: 8662379440797033939, guid: 6477cadf7815748839d9962c08951b8e, type: 3}
+      propertyPath: m_Parameters.colorGradient.ctime0
+      value: 35466
+      objectReference: {fileID: 0}
+    - target: {fileID: 8662379440797033939, guid: 6477cadf7815748839d9962c08951b8e, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.a
+      value: 0.9852941
+      objectReference: {fileID: 0}
+    - target: {fileID: 8662379440797033939, guid: 6477cadf7815748839d9962c08951b8e, type: 3}
+      propertyPath: m_Parameters.colorGradient.m_ColorSpace
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8662379440797033939, guid: 6477cadf7815748839d9962c08951b8e, type: 3}
+      propertyPath: m_Parameters.colorGradient.m_NumAlphaKeys
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -20,6 +20,22 @@ PrefabInstance:
       propertyPath: m_Constraints
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 4345989410310262461, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.75319386
+      objectReference: {fileID: 0}
+    - target: {fileID: 4345989410310262461, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4345989410310262461, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.b
+      value: 0.93989515
+      objectReference: {fileID: 0}
+    - target: {fileID: 4345989410310262461, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.g
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5830734531014702092, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 

@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BluePlanetMaterial
+  m_Name: TentacleMaterial
   m_Shader: {fileID: -6465566751694194690, guid: 5dd2dda502153304f92460684b297a09, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -24,7 +24,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: ec36fe9725047254eb37e52f97f2ac1f, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7974c303871b5d64ebc96356a4a3fb60, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -41,11 +41,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _GlowAmount: 1
-    - _OutlineThickness: 0.001
+    - _GlowAmount: 1.58
+    - _OutlineThickness: 0.004
     m_Colors:
-    - _ObjectColour: {r: 0.8705506, g: 0.8705506, b: 0.8705506, a: 1}
-    - _OutlineColour: {r: 0, g: 143.52, b: 1023.9999, a: 0.25490198}
+    - _ObjectColour: {r: 1, g: 1, b: 1, a: 1}
+    - _OutlineColour: {r: 91.6316, g: 956.3773, b: 0, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &7451532455201656961
 MonoBehaviour:
