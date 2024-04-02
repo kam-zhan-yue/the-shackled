@@ -1,5 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using DG.Tweening;
 using UnityEngine;
 
 public class TentacleMovement : MonoBehaviour
@@ -18,16 +22,35 @@ public class TentacleMovement : MonoBehaviour
     private float moveY;
     private Vector3 origin;
     [SerializeField] float tolerance = 0.01f;
-    
-    
-    public void Initialize_Point(Vector3 _direction, float _speed)
+    public Action ReachedOrigin;
+    private Vector3 _destination = Vector3.zero;
+    private float _scaleFactor = 1f;
+    private CircleCollider2D _circleCollider;
+
+    private float Frequency => frequency * 1/_scaleFactor;
+    private float Amplitude => amplitude * _scaleFactor;
+
+    private void Awake()
     {
+        _circleCollider = GetComponent<CircleCollider2D>();
+    }
+
+    public void Initialize_Point(Vector3 _direction, float _speed, float width, Vector3 destination = default)
+    {
+        _circleCollider.radius = width;
+        _destination = destination;
         origin = transform.position;
         direction = _direction;
         speed = _speed;
         SetInitialDirection();
     }
-    public void SetInitialDirection() 
+
+    public void Scale(float scaleFactor)
+    {
+        _scaleFactor = scaleFactor;
+    }
+
+    public void SetInitialDirection()
     {
         startTime = Time.time; 
         initial_y_position=transform.position.y;
@@ -35,16 +58,23 @@ public class TentacleMovement : MonoBehaviour
         rotation=Mathf.Atan2(direction.y, direction.x);
     }
 
+    public async UniTask ReachedDestinationAsync(CancellationToken token)
+    {
+        float distance = Vector3.Distance(_destination, transform.position);
+        float timeToDestination = distance / speed;
+        await UniTask.WaitForSeconds(timeToDestination, cancellationToken: token);
+    }
+
     //if not placed at origin it wont work
     //need to fix the shifting of the origin in the rotation
     void FixedUpdate()
     {
-        CheckReachedOrigin();
+        // CheckReachedOrigin();
         moveX =Time.deltaTime*speed;
         Vector3 unrotated_position = RotatePoint(transform.position, (-1)*rotation);
 
         // calculate the Y value based on time
-        moveY = (Mathf.Sin((unrotated_position.x) * frequency * Mathf.PI) * amplitude);
+        moveY = (Mathf.Sin((unrotated_position.x) * Frequency * Mathf.PI) * Amplitude);
         
         transform.position=RotatePoint((new Vector3(unrotated_position.x+moveX,moveY,0)), rotation);
     }
@@ -56,7 +86,6 @@ public class TentacleMovement : MonoBehaviour
     
     public Vector3 RotatePoint(Vector3 _point, float _rotation)
     {
-
         // Calculate sine and cosine of the angle
         float cosTheta = Mathf.Cos(_rotation);
         float sinTheta = Mathf.Sin(_rotation);
@@ -69,20 +98,33 @@ public class TentacleMovement : MonoBehaviour
         return new Vector3(newX, newY, 0);
     }
 
-    public void CheckReachedOrigin()
-{
-    // Calculate the distance between the current position and the origin
-    float distanceToOrigin = Vector3.Distance(transform.position, origin);
-
-    // Define a tolerance threshold for considering the tentacle to have reached the origin
-
-    // If we have a negative speed and the tentacle is close enough to the origin, deactivate it
-    if (speed < 0 && distanceToOrigin < tolerance)
+    public async UniTask ReturnAsync(CancellationToken token)
     {
+        float distance = Vector3.Distance(transform.position, origin);
+        float timeToDestination = distance / speed;
+        await UniTask.WaitForSeconds(timeToDestination, cancellationToken: token);
+        
         speed = 0;
         gameObject.SetActive(false);
         transform.position = origin;
+        ReachedOrigin?.Invoke();
     }
-}
 
+    public void CheckReachedOrigin()
+    {
+        // Calculate the distance between the current position and the origin
+        float distanceToOrigin = Vector3.Distance(transform.position, origin);
+        
+        // Define a tolerance threshold for considering the tentacle to have reached the origin
+
+        // If we have a negative speed and the tentacle is close enough to the origin, deactivate it
+        if (speed < 0 && distanceToOrigin < tolerance)
+        {
+            speed = 0;
+            //Calculating when it will reach
+            // gameObject.SetActive(false);
+            transform.position = origin;
+            ReachedOrigin?.Invoke();
+        }
+    }
 }

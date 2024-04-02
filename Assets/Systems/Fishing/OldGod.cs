@@ -17,6 +17,7 @@ public class OldGod : MonoBehaviour
     [BoxGroup("Scriptable Objects"), SerializeField] private GameSettings gameSettings;
     [BoxGroup("Components"), SerializeField] private Casting casting;
     [BoxGroup("Components"), SerializeField] private ShootTowards shootTowards;
+    [BoxGroup("Components"), SerializeField] private FirePoint firePoint;
     private State _state;
     private Camera _main;
     private PlayerControls _playerControls;
@@ -66,11 +67,6 @@ public class OldGod : MonoBehaviour
         Vector3 newScale = Vector3.one * _scaleFactor;
         transform.DOScale(newScale, 0.2f).SetEase(Ease.OutQuart);
 
-        if (_scaleFactor > SCALE_STEP * _threshold)
-        {
-            ZoomOut();
-            _threshold++;
-        }
     }
 
     private void Shoot(InputAction.CallbackContext callbackContext)
@@ -102,9 +98,21 @@ public class OldGod : MonoBehaviour
         float castMultiplier = await casting.GetCastMultiplier(token);
         
         _state = State.Shooting;
-        await shootTowards.Shoot(targetPosition, castMultiplier, token);
+        await firePoint.Shoot(targetPosition, castMultiplier, token);
+        // await shootTowards.Shoot(targetPosition, castMultiplier, token);
 
+        FinishAbsorbing();
         _state = State.Idle;
+    }
+
+    private void FinishAbsorbing()
+    {
+        if (_scaleFactor > SCALE_STEP * _threshold)
+        {
+            ZoomOut();
+            _threshold = (int)_scaleFactor / SCALE_STEP + 1;
+            firePoint.Scale(_scaleFactor);
+        }
     }
 
     private void OnDestroy()

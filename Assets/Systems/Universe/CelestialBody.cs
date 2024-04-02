@@ -110,8 +110,15 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
             _angle += angleStep;
         
         Vector2 rotation = UniverseHelper.ConvertAngleToRotation(_angle);
-        Vector2 position = (Vector2)parent.transform.position + rotation * orbitalData.OrbitalRadius;
-        _rigidbody.MovePosition(position);
+        if (parent == null)
+        {
+            Debug.Log($"ERROR {gameObject.name}");
+        }
+        else
+        {
+            Vector2 position = (Vector2)parent.transform.position + rotation * orbitalData.OrbitalRadius;
+            _rigidbody.MovePosition(position);
+        }
     }
 
     public virtual void Hook(Transform pole)

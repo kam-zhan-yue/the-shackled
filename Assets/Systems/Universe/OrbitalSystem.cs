@@ -80,7 +80,6 @@ public class OrbitalSystem
                 break;
         }
         _orbitalRadius += separation;
-        Debug.Log($"Arranging Orbitals for {_centre.gameObject.GetInstanceID()} {_centre.name} {_orbitalRadius} Separation: {separation}");
     }
 
     private float ArrangeOrbital(float minSize, float maxSize, float minSeparation, float maxSeparation)
@@ -120,8 +119,6 @@ public class OrbitalSystem
             _orbitals[i].Centre.SetScale(randomScale);
             _orbitals[i].Centre.SetOrbitalRadius(separation);
             _orbitals[i].Centre.SetOrbitalPeriod(orbitalPeriod);
-            Debug.Log($"Size: {randomSize}, Separation: {randomSeparation} Radius: {_orbitals[i]._orbitalRadius}");
-            Debug.Log($"Set Orbital Radius of {_orbitals[i].Centre.name} to {separation}");
         }
 
         return separation;
