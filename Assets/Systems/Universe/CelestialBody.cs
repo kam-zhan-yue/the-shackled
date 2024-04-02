@@ -17,10 +17,12 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
 
     public float Radius => transform.localScale.magnitude * sizeMultiplier;
     public Action<CelestialBody> onAbsorb;
+    
     //Components
     private Rigidbody2D _rigidbody;
     private LineRenderer _lineRenderer;
     private CircleCollider2D _circleCollider;
+    private SpriteRenderer _spriteRenderer;
     
     //Private Variables
     private State _state = State.Orbiting;
@@ -42,6 +44,7 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
         _rigidbody = GetComponent<Rigidbody2D>();
         _lineRenderer = GetComponent<LineRenderer>();
         _circleCollider = GetComponent<CircleCollider2D>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         gameObject.name = $"{gameObject.name} {gameObject.GetInstanceID()}";
         
         SetParent();
@@ -166,6 +169,7 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
         ForceMove();
         transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.OutQuart).OnComplete(() =>
         {
+            _spriteRenderer.enabled = false;
             DestroyAsync(this.GetCancellationTokenOnDestroy()).Forget();
         });
         return _data;

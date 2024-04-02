@@ -80,6 +80,7 @@ public class OldGod : MonoBehaviour, IGodService
         _scaleFactor += data.food;
         _scaleFactor = Mathf.Clamp(_scaleFactor, 0f, gameSettings.maxScale);
         Vector3 newScale = Vector3.one * _scaleFactor;
+        firePoint.Scale(_scaleFactor);
         transform.DOScale(newScale, 0.2f).SetEase(Ease.OutQuart);
     }
 
@@ -163,6 +164,7 @@ public class OldGod : MonoBehaviour, IGodService
         //Clamp it at 0.5f to prevent going below 0
         if (_scaleFactor <= 0.5f)
             _scaleFactor = 0.5f;
+        firePoint.Scale(_scaleFactor);
         transform.DOScale(_scaleFactor, 0.2f).SetEase(Ease.OutQuart);
     }
 

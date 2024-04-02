@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 [CreateAssetMenu(menuName = "ScriptableObject/PlanetDatabase")]
 public class PlanetDatabase : ScriptableObject
 {
+    private readonly Vector3 _offScreenSpawnPoint = new Vector3(2000f, 2000f);
     [FoldoutGroup("Moon RNG"), HideLabel]
     public MinMaxData moonMinMaxData = new MinMaxData();
     [FoldoutGroup("Planet RNG"), HideLabel]
@@ -47,6 +48,7 @@ public class PlanetDatabase : ScriptableObject
     {
         PlanetData planetData = GetRandomPlanet();
         Planet planet = Instantiate(planetData.prefab);
+        planet.transform.SetPositionAndRotation(_offScreenSpawnPoint, Quaternion.identity);
         List<CelestialBody> moons = new List<CelestialBody>();
         if (planetData.moons)
         {
@@ -69,6 +71,7 @@ public class PlanetDatabase : ScriptableObject
     public OrbitalSystem GenerateSolarSystem(OrbitalData orbitalData)
     {
         CelestialBody centre = GenerateCentre();
+        centre.transform.SetPositionAndRotation(_offScreenSpawnPoint, Quaternion.identity);
         int numPlanets = Random.Range(1, UniverseHelper.MAX_PLANETS);
         List<OrbitalSystem> solarSystemOrbitals = new();
 
