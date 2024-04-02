@@ -46,7 +46,6 @@ public class Planet : CelestialBody
     public override CelestialData Absorb()
     {
         CelestialData data = base.Absorb();
-        Debug.Log($"Force Move Moons {_moons.Count}");
         for (int i = _moons.Count - 1; i >= 0; --i)
         {
             _moons[i].Absorb();

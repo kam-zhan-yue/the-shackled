@@ -71,7 +71,6 @@ public class Universe : MonoBehaviour, IUniverseService
 
     public void ReportRingEaten(int id)
     {
-        Debug.Log($"LOG | Ring {id} Completely Eaten!");
         _activeRings.Remove(id);
         if (_activeRings.Count <= 0)
         {

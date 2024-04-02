@@ -65,7 +65,6 @@ public class Ring : MonoBehaviour
     public void Absorb()
     {
         IGodService god = ServiceLocator.Instance.Get<IGodService>();
-        Debug.Log($"LOG | absorbing {name}");
         for (int i = _celestialBodies.Count-1; i>=0; --i)
         {
             CelestialData data = _celestialBodies[i].Absorb();

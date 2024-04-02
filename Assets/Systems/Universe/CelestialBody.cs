@@ -194,7 +194,6 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
 
     public async UniTask Lerp(float orbitalRadius, float scaleFactor, float duration)
     {
-        Debug.Log($"LOG | Lerping {name} to {orbitalRadius} in {duration}");
         DOTween.To(SetOrbitalRadius, orbitalData.OrbitalRadius, orbitalRadius, duration).SetEase(Ease.OutExpo);
         DOTween.To(SetScale, transform.localScale.magnitude, scaleFactor, duration).SetEase(Ease.OutExpo);
         await UniTask.WaitForSeconds(duration, cancellationToken: this.GetCancellationTokenOnDestroy());
