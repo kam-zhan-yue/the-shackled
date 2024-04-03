@@ -90,11 +90,11 @@ public class FirePoint : MonoBehaviour
         }
     }
 
-    private void EnableGame()
+    private void SetCanGame(bool canGame)
     {
         for (int i = 0; i < point_list.Count; ++i)
         {
-            point_list[i].SetCanGame(true);
+            point_list[i].SetCanGame(canGame);
         }
     }
 
@@ -165,7 +165,7 @@ public class FirePoint : MonoBehaviour
 
     public async UniTask Shoot(Vector3 target, float multiplier, CancellationToken token)
     {
-        EnableGame();
+        SetCanGame(true);
         Vector3 position = transform.position;
         Vector3 adjustedTarget = new Vector3(target.x, target.y, position.z);
         Vector3 difference = adjustedTarget - position;
@@ -263,6 +263,7 @@ public class FirePoint : MonoBehaviour
     {
         await point_list[0].ReachedDestinationAsync(token);
         _reachedDestination = true;
+        SetCanGame(false);
         // while (_shootingPoints)
         // {
         //     float distanceToDestination = Vector3.Distance(point_list[0].transform.position, cursor_position);

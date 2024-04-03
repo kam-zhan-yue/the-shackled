@@ -102,6 +102,8 @@ public class Fishing : MonoBehaviour, IFishingService
             }
             else
             {
+                ServiceLocator.Instance.Get<IAudioService>().Play("SLOT");
+                CinemachineShake.Instance.ShakeCamera(2f, 0.2f);
                 pole.LetGo();
             }
         }

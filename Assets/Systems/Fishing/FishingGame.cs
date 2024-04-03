@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Kuroneko.UtilityDelivery;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -75,6 +76,8 @@ public class FishingGame
         {
             if (_slots[i].Contains(value))
             {
+                ServiceLocator.Instance.Get<IAudioService>().Play("SLOT");
+                CinemachineShake.Instance.ShakeCamera(0.5f, 0.1f);
                 _slots[i].Resolve();
                 contains = true;
             }
