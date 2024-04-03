@@ -68,3 +68,8 @@ MonoBehaviour:
     loop: 0
     volume: 1
     pitch: 1
+  - id: SLOT
+    clip: {fileID: 8300000, guid: 89891d5b75c1e64448af776c0c91071a, type: 3}
+    loop: 0
+    volume: 0.819
+    pitch: 0.38

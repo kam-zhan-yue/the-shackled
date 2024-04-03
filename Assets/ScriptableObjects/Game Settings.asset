@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Game Settings
   m_EditorClassIdentifier: 
   useCasting: 0
-  showIntroAnimation: 0
+  showIntroAnimation: 1
   initialRings: 7
   zoomOut: 100
   maxZoom: 100

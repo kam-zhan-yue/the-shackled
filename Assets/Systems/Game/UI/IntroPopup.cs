@@ -13,7 +13,7 @@ using UnityEngine.SceneManagement;
 
 public class IntroPopup : Popup
 {
-    public PresetController presetController;
+    public RectTransform tapestry;
     public TMP_Text text;
     [TextArea]
     public string[] introText = Array.Empty<String>();
@@ -29,12 +29,12 @@ public class IntroPopup : Popup
         _playerControls.Game.Shoot.performed += Next;
         _playerControls.Enable();
         text.DOFade(0f, 0f);
+        tapestry.DOAnchorPos(new Vector2(800, 0), 0f);
     }
 
     private void Start()
     {
-        presetController.SetPresetById("reset");
-        presetController.SetPresetById("scroll");
+        tapestry.DOAnchorPos(new Vector2(0, 0), 30f);
         First();
     }
 

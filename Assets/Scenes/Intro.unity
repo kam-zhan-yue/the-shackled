@@ -869,8 +869,8 @@ MonoBehaviour:
         localRotate: {x: 0, y: 0, z: 0}
       rectTransform:
         easing: 1
-        duration: 0
-        type: 2
+        duration: 800
+        type: 1
         sequencer: {fileID: 2132180919335069183}
         anchorMax: {x: 0, y: 0}
         anchorMin: {x: 0, y: 0}
@@ -1195,7 +1195,7 @@ MonoBehaviour:
   showSequence: {fileID: 0}
   hideSequence: {fileID: 0}
   resetSequence: {fileID: 0}
-  presetController: {fileID: 6410720097125557143}
+  tapestry: {fileID: 2132180919335069183}
   text: {fileID: 2081339291342401685}
   introText:
   - Since before the dawn of the Universe
@@ -1291,8 +1291,8 @@ MonoBehaviour:
         localRotate: {x: 0, y: 0, z: 0}
       rectTransform:
         easing: 1
-        duration: 30
-        type: 2
+        duration: 0
+        type: 1
         sequencer: {fileID: 2132180919335069183}
         anchorMax: {x: 0, y: 0}
         anchorMin: {x: 0, y: 0}
