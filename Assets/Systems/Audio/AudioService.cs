@@ -21,6 +21,7 @@ public class AudioService : MonoBehaviour, IAudioService
             audioSource.pitch = soundDatabase.sounds[i].pitch;
             audioSource.loop = soundDatabase.sounds[i].loop;
             _sources.Add(soundDatabase.sounds[i].id, audioSource);
+            audioSource.volume = soundDatabase.sounds[i].volume;
         }
     }
 
