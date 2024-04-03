@@ -69,7 +69,6 @@ public class TentacleMovement : MonoBehaviour
 
     private void AutoHook(IHookable hookable)
     {
-        Debug.Log("TentacleMovement AutoHook");
         OnAutoHook?.Invoke(hookable);
     }
 
@@ -85,7 +84,12 @@ public class TentacleMovement : MonoBehaviour
 
     public void TogglePause(bool pause)
     {
-        _paused = true;
+        _paused = pause;
+    }
+
+    public void SetCanHook(bool canHook)
+    {
+        _fishingPole.SetCanHook(canHook);
     }
 
     public void SetCanGame(bool canGame)

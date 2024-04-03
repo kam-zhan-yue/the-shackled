@@ -82,6 +82,7 @@ public class FirePoint : MonoBehaviour
 
     private void Pause()
     {
+        Debug.Log("Pause");
         for (int i = 0; i < point_list.Count; ++i)
         {
             point_list[i].TogglePause(true);
@@ -98,19 +99,28 @@ public class FirePoint : MonoBehaviour
         }
     }
 
+    private void SetCanHook(bool canHook)
+    {
+        for (int i = 0; i < point_list.Count; ++i)
+        {
+            point_list[i].SetCanHook(canHook);
+        }
+    }
+    
     private void UnPause()
     {
         for (int i = 0; i < point_list.Count; ++i)
         {
             point_list[i].TogglePause(false);
-            point_list[i].SetSpeed(speed);
         }
     }
 
     private void OnLetGo(IHookable hookable)
     {
+        SetCanHook(false);
         Debug.Log("FirePoint LetGo");
         UnPause();
+        SetSpeed(speed);
         ReturnPoints();
         _state = State.Reeling;
     }
@@ -118,6 +128,7 @@ public class FirePoint : MonoBehaviour
     private void OnReel(IHookable hookable)
     {
         UnPause();
+        SetSpeed(speed);
         ReturnPoints();
         _state = State.Reeling;
     }
@@ -125,7 +136,6 @@ public class FirePoint : MonoBehaviour
     //Old implementation
     private void OnAutoHook(IHookable hookable)
     {
-        Debug.Log("FirePoint AutoHook");
         // _state = State.Reeling;
         _reachedDestination = true;
         // ReturnPoints();
@@ -166,6 +176,8 @@ public class FirePoint : MonoBehaviour
     public async UniTask Shoot(Vector3 target, float multiplier, CancellationToken token)
     {
         SetCanGame(true);
+        SetCanHook(true);
+        UnPause();
         Vector3 position = transform.position;
         Vector3 adjustedTarget = new Vector3(target.x, target.y, position.z);
         Vector3 difference = adjustedTarget - position;
@@ -263,7 +275,7 @@ public class FirePoint : MonoBehaviour
     {
         await point_list[0].ReachedDestinationAsync(token);
         _reachedDestination = true;
-        SetCanGame(false);
+        // SetCanGame(false);
         // while (_shootingPoints)
         // {
         //     float distanceToDestination = Vector3.Distance(point_list[0].transform.position, cursor_position);

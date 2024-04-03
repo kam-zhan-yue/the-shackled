@@ -15,9 +15,12 @@ public class FishingPole : MonoBehaviour
     public Action<IHookable> OnLetGo;
     public Action<IHookable> OnAutoHook;    
     private bool _canGame = true;
+    private bool _canHook = true;
     
     private void OnTriggerEnter2D(Collider2D col)
     {
+        if (!_canHook)
+            return;
         if (col.gameObject.TryGetComponent(out IHookable hookable))
         {
             _hookable = hookable;
@@ -33,6 +36,11 @@ public class FishingPole : MonoBehaviour
         }
     }
 
+    public void SetCanHook(bool canHook)
+    {
+        _canHook = canHook;
+    }
+    
     public void SetCanGame(bool canHook)
     {
         _canGame = canHook;
@@ -53,7 +61,7 @@ public class FishingPole : MonoBehaviour
 
     private void AutoHook()
     {
-        Debug.Log("FishingPole AutoHook");
+        Debug.Log($"Auto Hook {_hookable}");
         _hookable.Hook(transform);
         OnAutoHook?.Invoke(_hookable);
     }
