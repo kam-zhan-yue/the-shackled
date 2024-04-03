@@ -7,6 +7,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using Cinemachine;
 
 public class OldGod : MonoBehaviour, IGodService
 {
@@ -16,6 +17,11 @@ public class OldGod : MonoBehaviour, IGodService
     [BoxGroup("Components"), SerializeField] private Casting casting;
     [BoxGroup("Components"), SerializeField] private ShootTowards shootTowards;
     [BoxGroup("Components"), SerializeField] private FirePoint firePoint;
+
+    [Header("Absorb Shake Settings")]
+    [SerializeField] private CinemachineVirtualCamera vcam;
+    [SerializeField] private float shake_duration;
+    [SerializeField] private float shake_intensity;
     private State _state;
     private Camera _main;
     private PlayerControls _playerControls;
@@ -77,6 +83,7 @@ public class OldGod : MonoBehaviour, IGodService
     public void Absorb(CelestialData data)
     {
         OnAbsorb?.Invoke();
+        CinemachineShake.Instance.ShakeCamera(shake_intensity,shake_duration);
         _absorbed = true;
         _scaleFactor += data.food;
         _scaleFactor = Mathf.Clamp(_scaleFactor, 0f, gameSettings.maxScale);
@@ -119,6 +126,9 @@ public class OldGod : MonoBehaviour, IGodService
     private void SetCameraSize(float size)
     {
         _main.orthographicSize = size;
+        //what i added
+        vcam.m_Lens.OrthographicSize = size;
+
     }
     
     private async UniTask Cast()

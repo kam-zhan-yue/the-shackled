@@ -6,11 +6,13 @@ using DG.Tweening;
 using Kuroneko.UtilityDelivery;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 [RequireComponent (typeof (Rigidbody2D))]
 public abstract class CelestialBody : MonoBehaviour, IHookable
 {
+    public UnityEvent OnHook;
     [SerializeField] private float sizeMultiplier = 1f;
     [SerializeField, HideLabel] private OrbitalData orbitalData;
     protected Transform parent;
@@ -145,6 +147,8 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
 
     public virtual void Hook(Transform pole)
     {
+        OnHook?.Invoke();
+        CinemachineShake.Instance.ShakeCamera(sizeMultiplier,0.2f);
         _lineRenderer.positionCount = 0;
         _state = State.Hooked;
         transform.parent = pole;

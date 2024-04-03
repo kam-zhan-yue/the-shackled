@@ -18,3 +18,13 @@ MonoBehaviour:
     loop: 1
     volume: 1
     pitch: 1
+  - id: ABSORB
+    clip: {fileID: 8300000, guid: bc9e3a7aae78e224380b2fe12f31d74b, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+  - id: HOOK
+    clip: {fileID: 8300000, guid: 89891d5b75c1e64448af776c0c91071a, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
