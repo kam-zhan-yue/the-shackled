@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: animation_to_play
       value: 
       objectReference: {fileID: 7400000, guid: 87920462297c9f248a652ac9c791f451, type: 2}
+    - target: {fileID: 760205581410733272, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
+      propertyPath: destruction_animation
+      value: 
+      objectReference: {fileID: 7400000, guid: be193ecfe15a33144803c6bebe120010, type: 2}
     - target: {fileID: 1560704518533714804, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
       propertyPath: m_Name
       value: Blue Planet
@@ -277,6 +281,18 @@ MonoBehaviour:
           m_StringArgument: HOOK
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 8262847677517422759}
+        m_TargetAssemblyTypeName: PlayAnimation, Assembly-CSharp
+        m_MethodName: PlayDestruction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   fishingSlots: {x: 0, y: 0}
   sizeMultiplier: 1
   orbitalData:
@@ -285,6 +301,17 @@ MonoBehaviour:
     orbitalPeriod: 1
     orbitalRadius: 1
     bodyScale: 0
+--- !u!114 &8262847677517422759 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 760205581410733272, guid: 78f26dfd36e854699915be1545dd5686, type: 3}
+  m_PrefabInstance: {fileID: 8657962329890614399}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7894808636652486411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 211af92f13b624b44bd0d051bc87fe21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8631585165728755568 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1148081609511846671, guid: 78f26dfd36e854699915be1545dd5686, type: 3}

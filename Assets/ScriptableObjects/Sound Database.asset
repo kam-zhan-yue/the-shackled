@@ -16,7 +16,7 @@ MonoBehaviour:
   - id: MAIN_TRACK
     clip: {fileID: 8300000, guid: b335bf39beeb74da9b9bd4610ebbe20a, type: 3}
     loop: 1
-    volume: 1
+    volume: 0
     pitch: 1
   - id: ABSORB
     clip: {fileID: 8300000, guid: bc9e3a7aae78e224380b2fe12f31d74b, type: 3}
@@ -26,5 +26,5 @@ MonoBehaviour:
   - id: HOOK
     clip: {fileID: 8300000, guid: 89891d5b75c1e64448af776c0c91071a, type: 3}
     loop: 0
-    volume: 1
+    volume: 0.397
     pitch: 1
