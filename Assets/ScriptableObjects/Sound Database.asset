@@ -16,7 +16,7 @@ MonoBehaviour:
   - id: MAIN_TRACK
     clip: {fileID: 8300000, guid: b335bf39beeb74da9b9bd4610ebbe20a, type: 3}
     loop: 1
-    volume: 0
+    volume: 1
     pitch: 1
   - id: ABSORB
     clip: {fileID: 8300000, guid: bc9e3a7aae78e224380b2fe12f31d74b, type: 3}
@@ -27,4 +27,44 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 89891d5b75c1e64448af776c0c91071a, type: 3}
     loop: 0
     volume: 0.397
+    pitch: 1
+  - id: INTRO_1
+    clip: {fileID: 8300000, guid: 9de8cd21bee9a4fee8141e16c78b36b7, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+  - id: INTRO_2
+    clip: {fileID: 8300000, guid: 561f81494f5cd400f973d4406d27fadb, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+  - id: INTRO_3
+    clip: {fileID: 8300000, guid: 150d7a9ad98e54650aea04f65d666303, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+  - id: INTRO_4
+    clip: {fileID: 8300000, guid: 343983492af8a48a08eda74e1bed8215, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+  - id: INTRO_5
+    clip: {fileID: 8300000, guid: a3eda107fc4ac4272a4dd14773499d11, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+  - id: INTRO_6
+    clip: {fileID: 8300000, guid: ba5324fb23c8d4fecad3adcb4b0c4a29, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+  - id: INTRO_7
+    clip: {fileID: 8300000, guid: c989d6335b0d045b185e79dbd9da420c, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+  - id: INTRO_8
+    clip: {fileID: 8300000, guid: 6ce2a85d0c5d74b01a346d1ca9941325, type: 3}
+    loop: 0
+    volume: 1
     pitch: 1

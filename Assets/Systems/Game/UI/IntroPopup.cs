@@ -5,6 +5,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
 using Kuroneko.UIDelivery;
+using Kuroneko.UtilityDelivery;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -72,6 +73,8 @@ public class IntroPopup : Popup
         text.DOFade(1f, 1f).SetEase(Ease.InSine);
         await UniTask.WaitForSeconds(1f, cancellationToken:token);
         
+        ServiceLocator.Instance.Get<IAudioService>().Play("INTRO_1");
+        
         _inputReady = true;
     }
 
@@ -85,6 +88,7 @@ public class IntroPopup : Popup
         
         text.SetText(data);
         
+        ServiceLocator.Instance.Get<IAudioService>().Play($"INTRO_{_index+1}");
         //Fade in
         text.DOFade(1f, 1f).SetEase(Ease.InSine);
         await UniTask.WaitForSeconds(1f, cancellationToken:token);

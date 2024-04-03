@@ -30,6 +30,7 @@ public class AudioService : MonoBehaviour, IAudioService
     {
         if (_sources.TryGetValue(clipName, out AudioSource source))
         {
+            Debug.Log($"Play: {clipName}");
             source.Play();
         }
     }

@@ -1199,11 +1199,14 @@ MonoBehaviour:
   text: {fileID: 2081339291342401685}
   introText:
   - Since before the dawn of the Universe
-  - Planets destroyed, civilisations razed
+  - "An ancient deity, once \nfeared and worshipped"
+  - 'Civilisations razed,
+
+    Planets annihilated'
+  - Angering the might of the gods
   - Imprisoned where no light can reach
   - Unknown of time and space
   - Forever locked in place
-  - "An ancient deity, once \nfeared and worshipped"
   - Has awoken from its slumber
 --- !u!1 &7020509723166726128
 GameObject:
