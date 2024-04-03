@@ -14,7 +14,7 @@ public class FishingPole : MonoBehaviour
     public Action<IHookable> OnReel;
     public Action<IHookable> OnLetGo;
     public Action<IHookable> OnAutoHook;
-    private bool _canGame = false;
+    private bool _canGame = true;
     
     private void OnTriggerEnter2D(Collider2D col)
     {

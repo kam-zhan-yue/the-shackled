@@ -145,6 +145,7 @@ MonoBehaviour:
           m_StringArgument: HOOK
           m_BoolArgument: 0
         m_CallState: 2
+  fishingSlots: {x: 0, y: 0}
   sizeMultiplier: 1
   orbitalData:
     clockwiseOrbit: 0

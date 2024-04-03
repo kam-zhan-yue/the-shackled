@@ -62,7 +62,7 @@ public class FirePoint : MonoBehaviour
             _point.Initialize_Point(direction, 0 , 0);
             _point.gameObject.SetActive(false);
             _point.OnHook += OnHook;
-            _point.OnReel += OnLetGo;
+            _point.OnLetGo += OnLetGo;
             _point.OnReel += OnReel;
             _point.OnAutoHook += OnAutoHook;
             //add to list
@@ -90,6 +90,14 @@ public class FirePoint : MonoBehaviour
         }
     }
 
+    private void EnableGame()
+    {
+        for (int i = 0; i < point_list.Count; ++i)
+        {
+            point_list[i].SetCanGame(true);
+        }
+    }
+
     private void UnPause()
     {
         for (int i = 0; i < point_list.Count; ++i)
@@ -101,16 +109,17 @@ public class FirePoint : MonoBehaviour
 
     private void OnLetGo(IHookable hookable)
     {
-        _state = State.Reeling;
+        Debug.Log("FirePoint LetGo");
         UnPause();
         ReturnPoints();
+        _state = State.Reeling;
     }
 
     private void OnReel(IHookable hookable)
     {
-        _state = State.Reeling;
         UnPause();
         ReturnPoints();
+        _state = State.Reeling;
     }
 
     //Old implementation
@@ -156,6 +165,7 @@ public class FirePoint : MonoBehaviour
 
     public async UniTask Shoot(Vector3 target, float multiplier, CancellationToken token)
     {
+        EnableGame();
         Vector3 position = transform.position;
         Vector3 adjustedTarget = new Vector3(target.x, target.y, position.z);
         Vector3 difference = adjustedTarget - position;

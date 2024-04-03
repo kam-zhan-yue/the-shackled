@@ -11,7 +11,7 @@ using UnityEngine.InputSystem;
 
 public class Fishing : MonoBehaviour, IFishingService
 {
-    [SerializeField] private float fishTime = 2f;
+    [SerializeField] private float fishTime = 1f;
     private PlayerControls _playerControls;
     private FishingGame _fishingGame = new FishingGame(0);
 
