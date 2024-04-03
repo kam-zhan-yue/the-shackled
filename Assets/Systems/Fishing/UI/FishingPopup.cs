@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Kuroneko.UIDelivery;
 using Kuroneko.UtilityDelivery;
 using Sirenix.OdinInspector;
@@ -8,6 +9,7 @@ using UnityEngine;
 public class FishingPopup : Popup
 {
     [SerializeField] private RectTransform slotHolder;
+    [SerializeField] private RectTransform indicator;
     [SerializeField] private FishingSlotPopupItem sampleSlotItem;
 
     private List<FishingSlotPopupItem> _slots = new();
@@ -15,7 +17,26 @@ public class FishingPopup : Popup
     
     protected override void InitPopup()
     {
-        
+        HidePopup();
+    }
+
+    private void Start()
+    {
+        IFishingService fishingService = ServiceLocator.Instance.Get<IFishingService>();
+        fishingService.RegisterGameStart(OnGameStart);
+        fishingService.RegisterGameEnd(OnGameEnd);
+    }
+
+    private void OnGameStart(FishingGame game)
+    {
+        ShowPopup();
+        Init(game);
+    }
+
+    private void OnGameEnd(FishingGame game)
+    {
+        _data.OnSetValue = null;
+        HidePopup();
     }
 
     [Button]
@@ -42,6 +63,10 @@ public class FishingPopup : Popup
                 _slots[i].gameObject.SetActiveFast(false);
             }
         }
+
+        indicator.transform.eulerAngles = Vector3.zero;
+        _data.OnSetValue = null;
+        _data.OnSetValue += OnSetValue;
     }
 
     private void TryInstantiate()
@@ -58,5 +83,21 @@ public class FishingPopup : Popup
             }
         }
         sampleSlotItem.gameObject.SetActiveFast(false);
+    }
+
+    private void OnSetValue(float value)
+    {
+        float zRotation = 360f * value * -1f;
+        indicator.transform.eulerAngles = new Vector3(0f, 0f, zRotation);
+    }
+    
+    private void OnDestroy()
+    {
+        IFishingService fishingService = ServiceLocator.Instance.Get<IFishingService>();
+        if (fishingService != null)
+        {
+            fishingService.UnregisterGameStart(OnGameStart);
+            fishingService.UnregisterGameEnd(OnGameEnd);
+        }
     }
 }

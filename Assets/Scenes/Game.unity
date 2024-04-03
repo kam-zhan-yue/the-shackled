@@ -123,6 +123,145 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &23840985
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 23840986}
+  - component: {fileID: 23840987}
+  m_Layer: 5
+  m_Name: Reset Sequence
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &23840986
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 23840985}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1285455437}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &23840987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 23840985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d38c0c3682e6c4ab8ae788501df0e3e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tweenData:
+  - type: 0
+    sequenceData:
+      type: 0
+      sequencer: 2
+      gameObject:
+        easing: 1
+        duration: 0
+        type: 0
+        sequencer: {fileID: 0}
+        scale: {x: 0, y: 0, z: 0}
+        scaleX: 0
+        scaleY: 0
+        scaleZ: 0
+        move: {x: 0, y: 0, z: 0}
+        moveX: 0
+        moveY: 0
+        moveZ: 0
+        localMove: {x: 0, y: 0, z: 0}
+        localMoveX: 0
+        localMoveY: 0
+        localMoveZ: 0
+        rotate: {x: 0, y: 0, z: 0}
+        localRotate: {x: 0, y: 0, z: 0}
+      rectTransform:
+        easing: 1
+        duration: 0
+        type: 0
+        sequencer: {fileID: 0}
+        anchorMax: {x: 0, y: 0}
+        anchorMin: {x: 0, y: 0}
+        anchorPos: {x: 0, y: 0}
+        anchorPos3D: {x: 0, y: 0, z: 0}
+        pivot: {x: 0, y: 0}
+        punch: {x: 0, y: 0}
+        shake: {x: 0, y: 0, z: 0}
+        size: {x: 0, y: 0}
+        center: {x: 0, y: 0, z: 0}
+        endValueDegrees: 0
+      image:
+        easing: 1
+        duration: 0
+        sequencer: {fileID: 777035471}
+        type: 0
+        color: {r: 0.8117647, g: 0.47843137, b: 0.050980393, a: 1}
+        fade: 0
+        fillAmount: 0
+        gradient:
+          serializedVersion: 2
+          key0: {r: 1, g: 1, b: 1, a: 1}
+          key1: {r: 1, g: 1, b: 1, a: 1}
+          key2: {r: 0, g: 0, b: 0, a: 0}
+          key3: {r: 0, g: 0, b: 0, a: 0}
+          key4: {r: 0, g: 0, b: 0, a: 0}
+          key5: {r: 0, g: 0, b: 0, a: 0}
+          key6: {r: 0, g: 0, b: 0, a: 0}
+          key7: {r: 0, g: 0, b: 0, a: 0}
+          ctime0: 0
+          ctime1: 65535
+          ctime2: 0
+          ctime3: 0
+          ctime4: 0
+          ctime5: 0
+          ctime6: 0
+          ctime7: 0
+          atime0: 0
+          atime1: 65535
+          atime2: 0
+          atime3: 0
+          atime4: 0
+          atime5: 0
+          atime6: 0
+          atime7: 0
+          m_Mode: 0
+          m_ColorSpace: -1
+          m_NumColorKeys: 2
+          m_NumAlphaKeys: 2
+        blendColor: {r: 0, g: 0, b: 0, a: 0}
+      canvasGroup:
+        easing: 1
+        duration: 0
+        type: 0
+        sequencer: {fileID: 0}
+        fade: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
+    interval: 0
+    sequencePlayer: {fileID: 0}
+    presetController: {fileID: 0}
+    presetId: 
 --- !u!1 &115052935
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,7 +623,7 @@ RectTransform:
   m_GameObject: {fileID: 777035469}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: -0.05}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2022848850}
@@ -507,7 +646,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8113208, g: 0.4791277, b: 0.049750824, a: 1}
+  m_Color: {r: 0.8117647, g: 0.47843137, b: 0.050980393, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1036,6 +1175,61 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1285455436
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1285455437}
+  - component: {fileID: 1285455438}
+  m_Layer: 5
+  m_Name: Preset Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1285455437
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1285455436}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 23840986}
+  - {fileID: 1900455799}
+  m_Father: {fileID: 2022848850}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1285455438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1285455436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39be432419baa4030820fc9e9d5c8d5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  presetList:
+  - id: reset
+    sequencePlayer: {fileID: 23840987}
+  - id: resolve
+    sequencePlayer: {fileID: 1900455800}
 --- !u!1 &1400186928
 GameObject:
   m_ObjectHideFlags: 0
@@ -1404,6 +1598,145 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1899310282}
   m_CullTransparentMesh: 1
+--- !u!1 &1900455798
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1900455799}
+  - component: {fileID: 1900455800}
+  m_Layer: 5
+  m_Name: Resolve Sequence
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1900455799
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900455798}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1285455437}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1900455800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900455798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d38c0c3682e6c4ab8ae788501df0e3e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tweenData:
+  - type: 0
+    sequenceData:
+      type: 0
+      sequencer: 2
+      gameObject:
+        easing: 1
+        duration: 0
+        type: 0
+        sequencer: {fileID: 0}
+        scale: {x: 0, y: 0, z: 0}
+        scaleX: 0
+        scaleY: 0
+        scaleZ: 0
+        move: {x: 0, y: 0, z: 0}
+        moveX: 0
+        moveY: 0
+        moveZ: 0
+        localMove: {x: 0, y: 0, z: 0}
+        localMoveX: 0
+        localMoveY: 0
+        localMoveZ: 0
+        rotate: {x: 0, y: 0, z: 0}
+        localRotate: {x: 0, y: 0, z: 0}
+      rectTransform:
+        easing: 1
+        duration: 0
+        type: 0
+        sequencer: {fileID: 0}
+        anchorMax: {x: 0, y: 0}
+        anchorMin: {x: 0, y: 0}
+        anchorPos: {x: 0, y: 0}
+        anchorPos3D: {x: 0, y: 0, z: 0}
+        pivot: {x: 0, y: 0}
+        punch: {x: 0, y: 0}
+        shake: {x: 0, y: 0, z: 0}
+        size: {x: 0, y: 0}
+        center: {x: 0, y: 0, z: 0}
+        endValueDegrees: 0
+      image:
+        easing: 1
+        duration: 0
+        sequencer: {fileID: 777035471}
+        type: 0
+        color: {r: 0.05098041, g: 0.8117647, b: 0.08479785, a: 1}
+        fade: 0
+        fillAmount: 0
+        gradient:
+          serializedVersion: 2
+          key0: {r: 1, g: 1, b: 1, a: 1}
+          key1: {r: 1, g: 1, b: 1, a: 1}
+          key2: {r: 0, g: 0, b: 0, a: 0}
+          key3: {r: 0, g: 0, b: 0, a: 0}
+          key4: {r: 0, g: 0, b: 0, a: 0}
+          key5: {r: 0, g: 0, b: 0, a: 0}
+          key6: {r: 0, g: 0, b: 0, a: 0}
+          key7: {r: 0, g: 0, b: 0, a: 0}
+          ctime0: 0
+          ctime1: 65535
+          ctime2: 0
+          ctime3: 0
+          ctime4: 0
+          ctime5: 0
+          ctime6: 0
+          ctime7: 0
+          atime0: 0
+          atime1: 65535
+          atime2: 0
+          atime3: 0
+          atime4: 0
+          atime5: 0
+          atime6: 0
+          atime7: 0
+          m_Mode: 0
+          m_ColorSpace: -1
+          m_NumColorKeys: 2
+          m_NumAlphaKeys: 2
+        blendColor: {r: 0, g: 0, b: 0, a: 0}
+      canvasGroup:
+        easing: 1
+        duration: 0
+        type: 0
+        sequencer: {fileID: 0}
+        fade: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
+    interval: 0
+    sequencePlayer: {fileID: 0}
+    presetController: {fileID: 0}
+    presetId: 
 --- !u!1 &1979932474
 GameObject:
   m_ObjectHideFlags: 0
@@ -1508,6 +1841,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1285455437}
   - {fileID: 777035470}
   m_Father: {fileID: 8798722631031395227}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1529,6 +1863,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fill: {fileID: 777035471}
+  presetController: {fileID: 1285455438}
 --- !u!1 &712314264881867548
 GameObject:
   m_ObjectHideFlags: 0
@@ -1555,6 +1890,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3419876484991963354}
   - component: {fileID: 3419876484991963355}
+  - component: {fileID: 3419876484991963356}
   m_Layer: 5
   m_Name: FishingPopup
   m_TagString: Untagged
@@ -1762,7 +2098,20 @@ MonoBehaviour:
   hideSequence: {fileID: 0}
   resetSequence: {fileID: 0}
   slotHolder: {fileID: 8798722631031395227}
+  indicator: {fileID: 1979932475}
   sampleSlotItem: {fileID: 2022848851}
+--- !u!225 &3419876484991963356
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2011180785034134593}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &3857416983308697821
 PrefabInstance:
   m_ObjectHideFlags: 0

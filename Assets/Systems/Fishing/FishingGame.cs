@@ -6,17 +6,19 @@ using Random = UnityEngine.Random;
 
 public class FishingGame
 {
-    private const float START = 0.1f;
+    private const float START = 0.15f;
     private readonly int _slotNum;
     private readonly FishingSlot[] _slots;
 
     public int SlotNum => _slotNum;
     public FishingSlot[] Slots => _slots;
+
+    public Action<float> OnSetValue;
     
-    public FishingGame(int slotNumNum)
+    public FishingGame(int slotNum)
     {
-        _slotNum = slotNumNum;
-        _slots = new FishingSlot[slotNumNum];
+        _slotNum = slotNum;
+        _slots = new FishingSlot[slotNum];
         Generate();
     }
 
@@ -30,6 +32,11 @@ public class FishingGame
             float end = start + slotSize;
             _slots[i] = new FishingSlot(start, end);
         }
+    }
+
+    public void SetValue(float value)
+    {
+        OnSetValue?.Invoke(value);
     }
 
     public void DebugClass()
@@ -59,5 +66,29 @@ public class FishingGame
             default:
                 return 0.05f;
         }
+    }
+
+    public bool TryResolve(float value)
+    {
+        bool contains = false;
+        for (int i = 0; i < _slots.Length; ++i)
+        {
+            if (_slots[i].Contains(value))
+            {
+                _slots[i].Resolve();
+                contains = true;
+            }
+        }
+        return contains;
+    }
+
+    public bool Success()
+    {
+        for (int i = 0; i < _slots.Length; ++i)
+        {
+            if (!_slots[i].Resolved)
+                return false;
+        }
+        return true;
     }
 }

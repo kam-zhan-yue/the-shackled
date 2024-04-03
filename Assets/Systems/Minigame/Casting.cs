@@ -39,25 +39,6 @@ public class Casting : MonoBehaviour
         }
     }
 
-    // private void Update()
-    // {
-    //     if (Input.GetMouseButtonDown(0))
-    //     {
-    //         switch (_state)
-    //         {
-    //             case State.Ready:
-    //                 Charge().Forget();
-    //                 break;
-    //             case State.Charging:
-    //                 Cast();
-    //                 break;
-    //             case State.Casted:
-    //                 ResetCast();
-    //                 break;
-    //         }
-    //     }
-    // }
-
     public async UniTask<float> GetCastMultiplier(CancellationToken token)
     {
         return await ChargeAsync(token);

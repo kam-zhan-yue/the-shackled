@@ -10,6 +10,13 @@ using UnityEngine.Rendering.Universal;
 
 public class FirePoint : MonoBehaviour
 {
+    private enum State
+    {
+        Idle = 0,
+        Firing = 1,
+        Hooked = 2,
+        Reeling = 3,
+    }
     [SerializeField] private bool debug;
     [SerializeField] private float destination_tolerance_check;
     [SerializeField] private TentacleMovement point;
@@ -22,13 +29,15 @@ public class FirePoint : MonoBehaviour
     private Vector3 cursor_position;
     [Header("Lerp Values")]
     [SerializeField] private float duration;
-
+    
     private bool _reachedDestination = false;
     private bool _reachedOrigin = false;
     private float _originalSpeed = 0f;
     private float _originalTolerance = 0f;
 
     private float _scaleFactor = 0f;
+
+    private State _state = State.Idle;
 
     private FishingPole _fishingPole;
     
@@ -53,16 +62,64 @@ public class FirePoint : MonoBehaviour
             _point.Initialize_Point(direction, 0 , 0);
             _point.gameObject.SetActive(false);
             _point.OnHook += OnHook;
+            _point.OnReel += OnLetGo;
+            _point.OnReel += OnReel;
+            _point.OnAutoHook += OnAutoHook;
             //add to list
             point_list.Add(_point);
         }
 
         point_list[0].ReachedOrigin += ReachedOrigin;
     }
+    
 
     private void OnHook(IHookable hookable)
     {
+        //Pause the tentacle
+        _state = State.Hooked;
+        Pause();
+    }
+
+    private void Pause()
+    {
+        for (int i = 0; i < point_list.Count; ++i)
+        {
+            point_list[i].TogglePause(true);
+            point_list[i].SetCanGame(false);
+            point_list[i].SetSpeed(0f);
+        }
+    }
+
+    private void UnPause()
+    {
+        for (int i = 0; i < point_list.Count; ++i)
+        {
+            point_list[i].TogglePause(false);
+            point_list[i].SetSpeed(speed);
+        }
+    }
+
+    private void OnLetGo(IHookable hookable)
+    {
+        _state = State.Reeling;
+        UnPause();
+        ReturnPoints();
+    }
+
+    private void OnReel(IHookable hookable)
+    {
+        _state = State.Reeling;
+        UnPause();
+        ReturnPoints();
+    }
+
+    //Old implementation
+    private void OnAutoHook(IHookable hookable)
+    {
+        Debug.Log("FirePoint AutoHook");
+        // _state = State.Reeling;
         _reachedDestination = true;
+        // ReturnPoints();
     }
     
     private void ReachedOrigin()
@@ -113,16 +170,18 @@ public class FirePoint : MonoBehaviour
         await UniTask.WaitUntil(() => _reachedOrigin, cancellationToken: token);
     }
 
-    public void SetSpeeds(float _speed)
+    private void SetSpeed(float tentacleSpeed)
     {
         foreach (TentacleMovement _point in point_list)
         {
-            _point.SetSpeed(_speed);
+            _point.SetSpeed(tentacleSpeed);
         }
     }
 
-    public void ReturnPoints()
+    private void ReturnPoints()
     {
+        if (_state == State.Reeling)
+            return;
         for (int i = 0; i < point_list.Count; ++i)
         {
             point_list[i].ReturnAsync(this.GetCancellationTokenOnDestroy()).Forget();
@@ -146,7 +205,7 @@ public class FirePoint : MonoBehaviour
             // Perform the lerp between start and end values
             float lerpedValue = Mathf.Lerp(startValue, endValue, t);
 
-            SetSpeeds(lerpedValue);
+            SetSpeed(lerpedValue);
 
             yield return null;
         }
@@ -154,9 +213,15 @@ public class FirePoint : MonoBehaviour
 
     IEnumerator DelayBetweenShots(float delay_between_firing_points)
     {
+        _state = State.Firing;
         _reachedDestination = false;
         for (int i = 0; i < num_of_points; i++)
         {
+            if (_state == State.Hooked)
+            {
+                Debug.Log("LOG | Tentacle Hooked! Stop Firing!");
+                yield break;
+            }
             if (_reachedDestination)
             {
                 Debug.Log("Reached Destination");
@@ -235,23 +300,6 @@ public class FirePoint : MonoBehaviour
         }
     }
 
-    public bool CheckDestination()
-    {
-        float distanceToDestination = Vector3.Distance(point_list[0].transform.position, cursor_position);
-        //Debug.Log(distanceToDestination);
-        if (distanceToDestination<destination_tolerance_check)
-        {
-            Debug.Log("Reached Destination, Lerping Back");
-            //If reached destination, bring them back in
-            ReturnPoints();
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
     private void OnDestroy()
     {
         if (point_list.Count > 0)
@@ -260,6 +308,9 @@ public class FirePoint : MonoBehaviour
             for (int i = 0; i < point_list.Count; ++i)
             {
                 point_list[i].OnHook -= OnHook;
+                point_list[i].OnLetGo -= OnLetGo;
+                point_list[i].OnReel -= OnReel;
+                point_list[i].OnAutoHook -= OnAutoHook;
             }
         }
     }

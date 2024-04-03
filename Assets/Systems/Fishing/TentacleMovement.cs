@@ -32,6 +32,11 @@ public class TentacleMovement : MonoBehaviour
 
     private FishingPole _fishingPole;
     public Action<IHookable> OnHook;
+    public Action<IHookable> OnLetGo;
+    public Action<IHookable> OnReel;
+    public Action<IHookable> OnAutoHook;
+
+    private bool _paused = false;
 
     private void Awake()
     {
@@ -42,11 +47,30 @@ public class TentacleMovement : MonoBehaviour
     private void Start()
     {
         _fishingPole.OnHook += Hook;
+        _fishingPole.OnLetGo += LetGo;
+        _fishingPole.OnReel += Reel;
+        _fishingPole.OnAutoHook += AutoHook;
     }
 
     private void Hook(IHookable hookable)
     {
         OnHook?.Invoke(hookable);
+    }
+
+    private void LetGo(IHookable hookable)
+    {
+        OnLetGo?.Invoke(hookable);
+    }
+
+    private void Reel(IHookable hookable)
+    {
+        OnReel?.Invoke(hookable);
+    }
+
+    private void AutoHook(IHookable hookable)
+    {
+        Debug.Log("TentacleMovement AutoHook");
+        OnAutoHook?.Invoke(hookable);
     }
 
     public void Initialize_Point(Vector3 _direction, float _speed, float width, Vector3 destination = default)
@@ -57,6 +81,16 @@ public class TentacleMovement : MonoBehaviour
         direction = _direction;
         speed = _speed;
         SetInitialDirection();
+    }
+
+    public void TogglePause(bool pause)
+    {
+        _paused = true;
+    }
+
+    public void SetCanGame(bool canGame)
+    {
+        _fishingPole.SetCanGame(canGame);
     }
 
     public void Scale(float scaleFactor)
@@ -76,12 +110,22 @@ public class TentacleMovement : MonoBehaviour
     {
         float distance = Vector3.Distance(_destination, transform.position);
         float timeToDestination = distance / speed;
-        await UniTask.WaitForSeconds(timeToDestination, cancellationToken: token);
+
+        float timer = 0f;
+
+        while (timer < timeToDestination)
+        {
+            if (!_paused)
+            {
+                timer += Time.deltaTime;
+            }
+            await UniTask.NextFrame(token);
+        }
     }
 
     //if not placed at origin it wont work
     //need to fix the shifting of the origin in the rotation
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         // CheckReachedOrigin();
         moveX =Time.deltaTime*speed;
@@ -147,6 +191,9 @@ public class TentacleMovement : MonoBehaviour
         if (_fishingPole)
         {
             _fishingPole.OnHook -= Hook;
+            _fishingPole.OnReel -= Reel;
+            _fishingPole.OnLetGo -= LetGo;
+            _fishingPole.OnAutoHook -= AutoHook;
         }
     }
 }

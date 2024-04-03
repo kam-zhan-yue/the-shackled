@@ -13,6 +13,7 @@ using Random = UnityEngine.Random;
 public abstract class CelestialBody : MonoBehaviour, IHookable
 {
     public UnityEvent OnHook;
+    [SerializeField] private Vector2 fishingSlots = Vector2.zero;
     [SerializeField] private float sizeMultiplier = 1f;
     [SerializeField, HideLabel] private OrbitalData orbitalData;
     protected Transform parent;
@@ -143,6 +144,18 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
         Vector2 rotation = UniverseHelper.ConvertAngleToRotation(_angle);
         Vector2 position = (Vector2)parent.transform.position + rotation * orbitalData.OrbitalRadius;
         _rigidbody.MovePosition(position);
+    }
+
+    public bool HasGame(out int slots)
+    {
+        if (fishingSlots == Vector2.zero)
+        {
+            slots = 0;
+            return false;
+        }
+
+        slots = Mathf.CeilToInt(Random.Range(fishingSlots.x, fishingSlots.y));
+        return true;
     }
 
     public virtual void Hook(Transform pole)

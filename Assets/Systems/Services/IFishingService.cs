@@ -1,18 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using Kuroneko.UtilityDelivery;
 
-public class IFishingService : MonoBehaviour
+public interface IFishingService : IGameService
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public void RegisterGameStart(Action<FishingGame> gameStart);
+    public void RegisterGameEnd(Action<FishingGame> gameEnd);
+    public void UnregisterGameStart(Action<FishingGame> gameStart);
+    public void UnregisterGameEnd(Action<FishingGame> gameEnd);
+    public void StartGame(FishingPole pole, int slots, CancellationToken token);
 }
