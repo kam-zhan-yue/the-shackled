@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Kuroneko.UtilityDelivery;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Planet : CelestialBody
 {
+    public UnityEvent OnAbsorb;
     private readonly List<Moon> _moons = new List<Moon>();
 
     public void AddMoon(Moon moon)
@@ -45,6 +47,7 @@ public class Planet : CelestialBody
 
     public override CelestialData Absorb()
     {
+        OnAbsorb?.Invoke();
         CelestialData data = base.Absorb();
         for (int i = _moons.Count - 1; i >= 0; --i)
         {

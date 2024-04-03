@@ -184,7 +184,7 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
         _circleCollider.enabled = false;
         onAbsorb?.Invoke(this);
         ForceMove();
-        transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.OutQuart).OnComplete(() =>
+        transform.DOScale(Vector3.zero, 2f).SetEase(Ease.OutQuart).OnComplete(() =>
         {
             _spriteRenderer.enabled = false;
             DestroyAsync(this.GetCancellationTokenOnDestroy()).Forget();
@@ -195,7 +195,7 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
     private void ForceMove()
     {
         Vector3 position = ServiceLocator.Instance.Get<IUniverseService>().GetCentre().position;
-        transform.DOMove(position, 0.2f).SetEase(Ease.OutQuart);
+        transform.DOMove(position, 2f).SetEase(Ease.OutQuart);
     }
 
     private void DrawOrbit()
