@@ -72,28 +72,38 @@ public class Fishing : MonoBehaviour, IFishingService
 
     private async UniTask StartGameAsync(FishingPole pole, int slots, CancellationToken token)
     {
-        IUniverseService universeService = ServiceLocator.Instance.Get<IUniverseService>();
-        universeService.PauseSimulation();
-        
+        // Pause the Universe and create a new fishing game
+        ServiceLocator.Instance.Get<IUniverseService>().PauseSimulation();
         _fishingGame = new FishingGame(slots);
-        OnGameStart?.Invoke(_fishingGame);
         _playerControls.Enable();
+        OnGameStart?.Invoke(_fishingGame);
+        // Wait for fishing game...
+        await FishingLoopAsync(token);
+        // Report the result of the game
+        ReportFishingResult(pole, _fishingGame.Success());
+        ServiceLocator.Instance.Get<IUniverseService>().StartSimulation();
+        _playerControls.Disable();
+        OnGameEnd?.Invoke(_fishingGame);
+    }
 
+    private async UniTask FishingLoopAsync(CancellationToken token)
+    {
+        // Init all values
         _fishTimer = 0f;
         _fishing = true;
+        // Update values within while loop
         while (_fishing)
         {
             _fishTimer += Time.deltaTime;
             _fishingGame.SetValue(_fishTimer/fishTime);
             if (_fishTimer >= fishTime)
-            {
                 _fishing = false;
-            }
-
             await UniTask.NextFrame(token);
         }
-        _playerControls.Disable();
+    }
 
+    private void ReportFishingResult(FishingPole pole, bool success)
+    {
         if (pole)
         {
             if (_fishingGame.Success())
@@ -107,9 +117,6 @@ public class Fishing : MonoBehaviour, IFishingService
                 pole.LetGo();
             }
         }
-
-        universeService.StartSimulation();
-        OnGameEnd?.Invoke(_fishingGame);
     }
 
     [Button]
