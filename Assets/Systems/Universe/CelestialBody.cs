@@ -133,10 +133,10 @@ public abstract class CelestialBody : MonoBehaviour, IHookable
         // Calculate the angle step and add it to the angle depending on clockwise orbit
         float angleStep = UniverseHelper.GetAngleStep(Time.fixedDeltaTime, orbitalData.OrbitalPeriod);
         _angle = orbitalData.ClockwiseOrbit ? _angle - angleStep : _angle + angleStep;
-        // Reset the angle after a full rotation
+        // Reset the angle after a full rotation to prevent overflow
         if (_angle > 360f) _angle = 0f;
         if (_angle < -360f) _angle = 0f;
-        // Convert the angle to rotation and set the rigidbody's position
+        // Convert the angle to rotation and set the position of the rigidbody
         Vector2 rotation = UniverseHelper.ConvertAngleToRotation(_angle);
         Vector2 position = (Vector2)parent.transform.position + rotation * orbitalData.OrbitalRadius;
         _rigidbody.MovePosition(position);

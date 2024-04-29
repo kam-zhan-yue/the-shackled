@@ -53,7 +53,7 @@ public class OrbitalSystem
         _orbitalData = orbitalData;
         _spawnPattern = SpawnPattern.Orbital;
         _centre = centre;
-        _orbitals = orbitals;
+        _orbitals = orbitals; // Recursive support for nested orbital systems
         _orbitalRadius = _orbitalData.OrbitalRadius;
         _outerOrbitalPeriod = orbitalPeriod;
         InitCentre();
@@ -85,6 +85,7 @@ public class OrbitalSystem
 
     private float ArrangeOrbital(float minSize, float maxSize, float minSeparation, float maxSeparation)
     {
+        // Calculate the separation angle and orbital period for all orbital systems
         float separation = Random.Range(minSeparation, maxSeparation) + Centre.Radius * 0.5f;
         int orbits = _orbitals.Count;
         float angleSeparation = 360f / orbits;
@@ -93,6 +94,7 @@ public class OrbitalSystem
         float orbitalPeriod = UniverseHelper.RandomValue(_outerOrbitalPeriod);
         for (int i = 0; i < _orbitals.Count; ++i)
         {
+            // Init each orbital centre with the randomly generated data
             float randomScale = Random.Range(minSize, maxSize);
             _orbitals[i].Centre.SetClockwise(clockwise);
             _orbitals[i].Centre.SetScale(randomScale);
